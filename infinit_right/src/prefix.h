@@ -51,5 +51,5 @@ using IRVector = std::vector<T>;
 #include "infinit_right_uuid.h"
 
 
-#include "object/_ir_object_prefix.h"
 #include "properties/_ir_properties_prefix.h"
+#include "object/_ir_object_prefix.h"

@@ -24,10 +24,10 @@ namespace IR {
 		bool GetParamVec4Safe(const char* paramName, const IRJson& js_object, glm::vec4& outValue);
 		glm::mat4 GetParamMat4(const char* paramName, const IRJson& js_object);
 		bool GetParamMat4Safe(const char* paramName, const IRJson& js_object, glm::mat4& outValue);
-		IRUUID GetParamIRUUID(const char* paramName, const IRJson& js_object);
-		bool GetParamIRUUIDSafe(const char* paramName, const IRJson& js_object, IRUUID& outValue);
-		IRString GetParamIRString(const char* paramName, const IRJson& js_object);
-		bool GetParamIRStringSafe(const char* paramName, const IRJson& js_object, IRString& outValue);
+		IRUUID GetParamUUID(const char* paramName, const IRJson& js_object);
+		bool GetParamUUIDSafe(const char* paramName, const IRJson& js_object, IRUUID& outValue);
+		IRString GetParamString(const char* paramName, const IRJson& js_object);
+		bool GetParamStringSafe(const char* paramName, const IRJson& js_object, IRString& outValue);
 
 		IRJson ConvertValue(int value);
 		IRJson ConvertValue(int* value);

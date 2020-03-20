@@ -44,7 +44,7 @@ namespace IR {
 			return "";
 		}
 
-		static void Log(ELogType type, const char* str, u32 line, const char* file)
+		static void Log(ELogType type, const IRString& str, u32 line, const char* file)
 		{
 			std::cout << GetPrefixString(type) << file << "l." << line << "]" << str << std::endl;
 		}
@@ -53,6 +53,7 @@ namespace IR {
 	}
 
 }
+
 
 #define IR_ERROR(x) ::IR::Logging::Log(::IR::Logging::ELogType::ERROR, x, __LINE__, __FILE__)
 #define IR_DEBUG(x) ::IR::Logging::Log(::IR::Logging::ELogType::DEBUG, x, __LINE__, __FILE__)

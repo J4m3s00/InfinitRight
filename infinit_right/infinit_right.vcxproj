@@ -144,6 +144,9 @@
   <ItemGroup>
     <ClCompile Include="src\glm\detail\glm.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\object\infinit_right_object.cpp" />
+    <ClCompile Include="src\properties\infinit_right_json_converter.cpp" />
+    <ClCompile Include="src\properties\infinit_right_property.cpp" />
     <ClCompile Include="src\properties\infinit_right_uuid.cpp" />
   </ItemGroup>
   <ItemGroup>
