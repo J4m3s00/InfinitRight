@@ -4,20 +4,37 @@ using namespace IR;
 
 int main()
 {
-	InfinitRightObject obj;
-	obj.SetName("Assembly Group.1");
+	InfinitRightDrawing drawing("TestDrawing");
 
-	InfinitRightObject obj2;
-	obj2.SetName("Assembly Group.2");
+	IRUUID firstUuid;
+	IRUUID secondUuid;
 
-	IRJson output_array = IRJson::array();
-	IRJson first = IRJson::object();
-	obj.SetJs(first);
-	output_array.push_back(first);
-	obj2.SetJs(first);
-	output_array.push_back(first);
+	{
+		InfinitRightUndoAction undoAction("Test_CreateObjects");
+		firstUuid = drawing.CreateNewObject(new InfinitRightObject())->GetUuid();
+		secondUuid = drawing.CreateNewObject(new InfinitRightObject())->GetUuid();
+	}
 
-	std::cout << output_array.dump() << std::endl;
+	{
+		InfinitRightUndoAction undoAction("Test_SetNames");
+		InfinitRightObject* firstObject = drawing.GetObjectByUuid(firstUuid);
+		if (firstObject)
+		{
+			firstObject->SetName("First Object");
+		}
+
+		InfinitRightObject* secondObject = drawing.GetObjectByUuid(secondUuid);
+		if (secondObject)
+		{
+			secondObject->SetName("Second Object");
+		}
+	}
+
+	{
+		InfinitRightUndoAction undoAction("Test_Delete Objects");
+		drawing.DeleteObject(firstUuid);
+		drawing.DeleteObject(secondUuid);
+	}
 
 	return 0;
 }

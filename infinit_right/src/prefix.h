@@ -53,3 +53,5 @@ using IRVector = std::vector<T>;
 
 #include "properties/_ir_properties_prefix.h"
 #include "object/_ir_object_prefix.h"
+#include "drawing/_lr_drawing_prefix.h"
+#include "undo/_ir_undo_prefix.h"

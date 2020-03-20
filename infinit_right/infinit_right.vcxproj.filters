@@ -33,6 +33,9 @@
     <ClCompile Include="src\properties\infinit_right_json_converter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\undo\infinit_right_undo_action.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\object\infinit_right_object.h">
@@ -822,6 +825,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\infinit_right_logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\undo\infinit_right_undo_value.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\undo\infinit_right_undo_action.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\undo\_ir_undo_prefix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\undo\infinit_right_undo_value_change.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\undo\infinit_right_undo_value_create.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\undo\infinit_right_undo_value_delete.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

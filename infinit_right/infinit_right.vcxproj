@@ -148,6 +148,7 @@
     <ClCompile Include="src\properties\infinit_right_json_converter.cpp" />
     <ClCompile Include="src\properties\infinit_right_property.cpp" />
     <ClCompile Include="src\properties\infinit_right_uuid.cpp" />
+    <ClCompile Include="src\undo\infinit_right_undo_action.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\glm\common.hpp" />
@@ -413,6 +414,12 @@
     <ClInclude Include="src\properties\infinit_right_json_converter.h" />
     <ClInclude Include="src\properties\infinit_right_property.h" />
     <ClInclude Include="src\properties\_ir_properties_prefix.h" />
+    <ClInclude Include="src\undo\infinit_right_undo_action.h" />
+    <ClInclude Include="src\undo\infinit_right_undo_value.h" />
+    <ClInclude Include="src\undo\infinit_right_undo_value_change.h" />
+    <ClInclude Include="src\undo\infinit_right_undo_value_create.h" />
+    <ClInclude Include="src\undo\infinit_right_undo_value_delete.h" />
+    <ClInclude Include="src\undo\_ir_undo_prefix.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\glm\detail\func_common.inl" />
