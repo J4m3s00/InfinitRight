@@ -6,10 +6,10 @@ namespace IR {
 
 		bool HasObjectProperty(const char* paramName, const IRJson& js_object);
 
-		int GetParamInt(const char* paramName, const IRJson& js_object);
-		bool GetParamIntSafe(const char* paramName, const IRJson& js_object, int& outValue);
-		u32 GetParamUInt(const char* paramName, const IRJson& js_object);
-		bool GetParamUIntSafe(const char* paramName, const IRJson& js_object, u32& outValue);
+		i32 GetParamInt(const char* paramName, const IRJson& js_object);
+		bool GetParamIntSafe(const char* paramName, const IRJson& js_object, i32& outValue);
+		u32 GetParamUint(const char* paramName, const IRJson& js_object);
+		bool GetParamUintSafe(const char* paramName, const IRJson& js_object, u32& outValue);
 		float GetParamFloat(const char* paramName, const IRJson& js_object);
 		bool GetParamFloatSafe(const char* paramName, const IRJson& js_object, float& outValue);
 		double GetParamDouble(const char* paramName, const IRJson& js_object);

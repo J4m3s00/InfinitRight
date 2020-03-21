@@ -10,43 +10,47 @@ namespace IR {
 
 	InfinitRightDrawing::~InfinitRightDrawing()
 	{
-		for (InfinitRightObject* object : fObjects) 
+		for (auto& object : fObjects) 
 		{
-			delete object;
+			delete object.second;
 		}
 		fObjects.clear();
 	}
 
 	InfinitRightObject* InfinitRightDrawing::CreateNewObject(InfinitRightObject* object)
 	{
-		fObjects.push_back(object);
+		InfinitRightUndoAction* currentUndoAction = InfinitRightApp::gApp().GetUndoManager().GetActiveAction();
+		fObjects[object->GetUuid()] = object;
+		IRJson objectJson = IRJson::object();
+		object->SetJs(objectJson);
+		if (currentUndoAction)
+		{
+			currentUndoAction->AddObjectCreateValue(object->GetUuid(), objectJson);
+		}
 		//Handle create?
 		return object;
 	}
 
 	void InfinitRightDrawing::DeleteObject(const IRUUID& uuid)
 	{
-		for (size_t i = 0; i < fObjects.size(); i++)
+		InfinitRightUndoAction* undoAction = InfinitRightApp::gApp().GetUndoManager().GetActiveAction();
+		InfinitRightObject* object = GetObjectByUuid(uuid);
+		IRJson objectJson = IRJson::object();
+		if (object)
 		{
-			if (fObjects[i]->GetUuid() == uuid)
+			object->SetJs(objectJson);
+			if (undoAction)
 			{
-				//Handle delete
-				delete fObjects[i];
-				fObjects.erase(fObjects.begin() + i);
-				break;
+				undoAction->AddObjectDeleteValue(uuid, objectJson);
 			}
+			fObjects.erase(uuid);
 		}
 	}
 
 	InfinitRightObject* InfinitRightDrawing::GetObjectByUuid(const IRUUID& uuid)
 	{
-		for (size_t i = 0; i < fObjects.size(); i++)
-		{
-			if (fObjects[i]->GetUuid() == uuid)
-			{
-				return fObjects[i];
-			}
-		}
+		return fObjects[uuid];
 	}
+
 
 }

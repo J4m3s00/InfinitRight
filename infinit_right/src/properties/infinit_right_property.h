@@ -4,6 +4,8 @@ namespace IR {
 
 	class InfinitRightObject;
 
+	extern void HandleValueChange(InfinitRightObject* object, const IRJson& oldValue, const IRJson& newValue);
+
 	class InfinitRightProperty
 	{
 	public:
@@ -13,7 +15,8 @@ namespace IR {
 		virtual void FromJs(const IRJson& json) = 0;
 		virtual void SetJs(IRJson& json) const = 0;
 	protected:
-		IRString fName;
+		IRString			fName;
+		InfinitRightObject* fObject;
 	};
 
 	template <typename ValueType>
@@ -25,8 +28,15 @@ namespace IR {
 	private:
 		ValueType* fValue;
 	public:
-		void SetValue(const ValueType&value)
+		void SetValue(const ValueType& value)
 		{
+			IRJson oldValue = IRJson::object();
+			IRJson newValue = IRJson::object();
+
+			oldValue[fName] = JS_CON::ConvertValue(fValue);
+			newValue[fName] = JS_CON::ConvertValue(value);
+
+			HandleValueChange(fObject, oldValue, newValue);
 			*fValue = value;
 		}
 

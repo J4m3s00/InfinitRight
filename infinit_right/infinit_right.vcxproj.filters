@@ -21,9 +21,6 @@
     <ClCompile Include="src\glm\detail\glm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\properties\infinit_right_uuid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\properties\infinit_right_property.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,6 +31,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\undo\infinit_right_undo_action.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\drawing\infinit_right_drawing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infinit_right_uuid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infinit_right_app.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\undo\infinit_right_undo_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\undo\infinit_right_undo_value_change.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\undo\infinit_right_undo_value_delete.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\undo\infinit_right_undo_value_create.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\undo\infinit_right_undo_value.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -843,6 +864,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\undo\infinit_right_undo_value_delete.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\drawing\infinit_right_drawing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\drawing\_lr_drawing_prefix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\undo\infinit_right_undo_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\infinit_right_app.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

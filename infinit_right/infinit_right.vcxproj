@@ -142,15 +142,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\drawing\infinit_right_drawing.cpp" />
     <ClCompile Include="src\glm\detail\glm.cpp" />
+    <ClCompile Include="src\infinit_right_app.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\object\infinit_right_object.cpp" />
     <ClCompile Include="src\properties\infinit_right_json_converter.cpp" />
     <ClCompile Include="src\properties\infinit_right_property.cpp" />
-    <ClCompile Include="src\properties\infinit_right_uuid.cpp" />
+    <ClCompile Include="src\infinit_right_uuid.cpp" />
     <ClCompile Include="src\undo\infinit_right_undo_action.cpp" />
+    <ClCompile Include="src\undo\infinit_right_undo_manager.cpp" />
+    <ClCompile Include="src\undo\infinit_right_undo_value.cpp" />
+    <ClCompile Include="src\undo\infinit_right_undo_value_change.cpp" />
+    <ClCompile Include="src\undo\infinit_right_undo_value_create.cpp" />
+    <ClCompile Include="src\undo\infinit_right_undo_value_delete.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\drawing\_lr_drawing_prefix.h" />
     <ClInclude Include="src\glm\common.hpp" />
     <ClInclude Include="src\glm\detail\compute_common.hpp" />
     <ClInclude Include="src\glm\detail\compute_vector_relational.hpp" />
@@ -405,6 +413,8 @@
     <ClInclude Include="src\glm\vec3.hpp" />
     <ClInclude Include="src\glm\vec4.hpp" />
     <ClInclude Include="src\glm\vector_relational.hpp" />
+    <ClInclude Include="src\drawing\infinit_right_drawing.h" />
+    <ClInclude Include="src\infinit_right_app.h" />
     <ClInclude Include="src\infinit_right_logging.h" />
     <ClInclude Include="src\infinit_right_uuid.h" />
     <ClInclude Include="src\nlohmann\json.hpp" />
@@ -419,6 +429,7 @@
     <ClInclude Include="src\undo\infinit_right_undo_value_change.h" />
     <ClInclude Include="src\undo\infinit_right_undo_value_create.h" />
     <ClInclude Include="src\undo\infinit_right_undo_value_delete.h" />
+    <ClInclude Include="src\undo\infinit_right_undo_manager.h" />
     <ClInclude Include="src\undo\_ir_undo_prefix.h" />
   </ItemGroup>
   <ItemGroup>

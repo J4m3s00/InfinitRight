@@ -68,6 +68,4 @@ namespace IR {
 		OnSetJs(json);
 	}
 
-
-
 }

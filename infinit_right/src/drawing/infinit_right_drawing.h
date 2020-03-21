@@ -8,7 +8,7 @@ namespace IR {
 		InfinitRightDrawing(const IRString& name);
 		~InfinitRightDrawing();
 	private:
-		IRVector<InfinitRightObject*>	fObjects;
+		TObjectMap				fObjects;
 	public:
 		InfinitRightObject*			CreateNewObject(InfinitRightObject* object);
 		void						DeleteObject(const IRUUID& uuid);

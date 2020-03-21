@@ -7,7 +7,7 @@ namespace IR { namespace JS_CON {
 			return js_object.find(paramName) != js_object.end();
 		}
 
-		int GetParamInt(const char* paramName, const IRJson& js_object)
+		i32 GetParamInt(const char* paramName, const IRJson& js_object)
 		{
 			int result = 0;
 			const IRJson& jsParam = js_object[paramName];
@@ -16,7 +16,7 @@ namespace IR { namespace JS_CON {
 			return result;
 		}
 
-		bool GetParamu32Safe(const char* paramName, const IRJson& js_object, int& outValue)
+		bool GetParamIntSafe(const char* paramName, const IRJson& js_object, i32& outValue)
 		{
 			if (!HasObjectProperty(paramName, js_object))
 			{
@@ -27,7 +27,7 @@ namespace IR { namespace JS_CON {
 			return true;
 		}
 
-		u32 GetParamu32(const char* paramName, const IRJson& js_object)
+		u32 GetParamUint(const char* paramName, const IRJson& js_object)
 		{
 			int result = 0;
 			const IRJson& jsParam = js_object[paramName];
@@ -36,14 +36,14 @@ namespace IR { namespace JS_CON {
 			return result;
 		}
 
-		bool GetParamIntSafe(const char* paramName, const IRJson& js_object, u32& outValue)
+		bool GetParamUintSafe(const char* paramName, const IRJson& js_object, u32& outValue)
 		{
 			if (!HasObjectProperty(paramName, js_object))
 			{
 				outValue = 0;
 				return false;
 			}
-			outValue = GetParamInt(paramName, js_object);
+			outValue = GetParamUint(paramName, js_object);
 			return true;
 		}
 
@@ -206,7 +206,7 @@ namespace IR { namespace JS_CON {
 			return result;
 		}
 
-		bool GetParamIRUUIDSafe(const char* paramName, const IRJson& js_object, IRUUID& outValue)
+		bool GetParamUUIDSafe(const char* paramName, const IRJson& js_object, IRUUID& outValue)
 		{
 			if (!HasObjectProperty(paramName, js_object))
 			{

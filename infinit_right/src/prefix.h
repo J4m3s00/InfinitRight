@@ -34,6 +34,11 @@
 //------------------------------------------------------------------------------------------------------
 //Typedefs
 
+namespace IR {
+	class IRUUID;
+	class InfinitRightObject;
+}
+
 typedef nlohmann::json	IRJson;
 
 typedef int32_t			i32;
@@ -43,9 +48,12 @@ typedef uint32_t		u32;
 typedef uint64_t		u64;
 typedef unsigned char	byte;
 typedef std::string		IRString;
+typedef std::map<IR::IRUUID, IR::InfinitRightObject*> TObjectMap;
 
 template <typename T>
 using IRVector = std::vector<T>;
+
+
 
 #include "infinit_right_logging.h"
 #include "infinit_right_uuid.h"
@@ -53,5 +61,8 @@ using IRVector = std::vector<T>;
 
 #include "properties/_ir_properties_prefix.h"
 #include "object/_ir_object_prefix.h"
-#include "drawing/_lr_drawing_prefix.h"
 #include "undo/_ir_undo_prefix.h"
+#include "drawing/_lr_drawing_prefix.h"
+
+
+#include "infinit_right_app.h"
