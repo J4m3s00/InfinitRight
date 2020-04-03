@@ -18,7 +18,7 @@ namespace IR {
 
 	void InfinitRightApp::Initialize()
 	{
-
+		infinit_right_register_bridge_function();
 	}
 
 	InfinitRightDrawing* InfinitRightApp::GetActiveDrawing()
@@ -36,4 +36,35 @@ namespace IR {
 		return fUndoManager;
 	}
 
+	void InfinitRightApp::RegisterBridgeFunction(const IRString& name, const TBridgeFn& bridgeFn)
+	{
+		fBridgeFns[name] = bridgeFn;
+	}
+
+	IRJson InfinitRightApp::CallBridgeFunction(const IRString& name, const IRJson& input)
+	{
+		const TBridgeFn& function = fBridgeFns[name];
+		IR_ModuleFunctionInfo info = IR_ModuleFunctionInfo( input );
+		if (function)
+		{
+			function(info);
+		}
+		return info.fReturnValue;
+	}
+
+	void InfinitRightApp::RegisterObject(const IRString& type, const TObjectConstFn& fn)
+	{
+		fObjectTypes[type] = fn;
+	}
+
+	InfinitRightObject* InfinitRightApp::new_object(const IRString& type, const IRUUID& uuid)
+	{
+		const TObjectConstFn& fn = gApp().fObjectTypes[type];
+		if (fn)
+		{
+			return fn(uuid);
+		}
+		IR_ERROR("Could not find object type :" + type);
+		return nullptr;
+	}
 }

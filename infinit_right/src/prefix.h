@@ -37,6 +37,7 @@
 namespace IR {
 	class IRUUID;
 	class InfinitRightObject;
+	class InfinitRightApp;
 }
 
 typedef nlohmann::json	IRJson;
@@ -53,7 +54,55 @@ typedef std::map<IR::IRUUID, IR::InfinitRightObject*> TObjectMap;
 template <typename T>
 using IRVector = std::vector<T>;
 
+template <typename T1, typename T2>
+using IRMap = std::map<T1, T2>;
 
+typedef std::function< IR::InfinitRightObject * (const IR::IRUUID& uuid) >	TObjectConstFn;
+
+
+/////////////////////////////////////////BRIDGING
+
+class IR_ModuleFunctionInfo
+{
+	friend class ::IR::InfinitRightApp;
+public:
+	const IRJson& input;
+private:
+	IRJson fReturnValue;
+public:
+	IR_ModuleFunctionInfo(const IRJson& _input)
+		: input(_input)
+	{
+		fReturnValue = IRJson::object();
+	}
+
+	void SetReturnValue(const IRJson& returnValue)
+	{
+		fReturnValue = returnValue;
+	}
+};
+
+typedef std::function < void(IR_ModuleFunctionInfo & input)>	TBridgeFn;
+
+//------------------------------------------------------------------------------------------------------
+//DEFINES
+
+
+#define IR_EXPORT void infinit_right_register_bridge_function()
+#define IR_REGISTER_METHOD(fn) ::IR::InfinitRightApp::gApp().RegisterBridgeFunction(#fn, fn)
+#define IR_REGISTER_OBJECT(objClss) ::IR::InfinitRightApp::gApp().RegisterObject(#objClss, objClss::CreateNew )
+#define IR_GET_OBJECT_TPYE(objClss) ::IR
+#define IR_MODULE_FN(fn) void fn (IR_ModuleFunctionInfo& info)
+
+#define IR_BEGIN_OBJECT(clss) class clss : public ::IR::InfinitRightObject {\
+public:\
+static clss* CreateNew(const ::IR::IRUUID uuid = ::IR::IRUUID().CreateNew()) { clss* result = new clss(uuid); result->fObjectType = #clss; return result; }
+#define  IR_END_OBJECT };
+
+//------------------------------------------------------------------------------------------------------
+//intern includes
+
+extern IR_EXPORT; //Function Header need to be somewhere. A implementation of this function is necessery
 
 #include "infinit_right_logging.h"
 #include "infinit_right_uuid.h"

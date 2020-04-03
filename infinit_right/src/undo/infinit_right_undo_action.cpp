@@ -21,13 +21,13 @@ namespace IR {
 
 	void InfinitRightUndoAction::AddObjectCreateValue(const IRUUID& objectUuid, const IRJson& object)
 	{
-		IR_INFO("Add object change value create for object " + objectUuid.ToString() + "! Object: " + object.dump());
+		IR_INFO("Add objectcreate change for object " + objectUuid.ToString() + "! Object: " + object.dump());
 		fValues.push_back(new InfinitRightUndoValueCreate(objectUuid, object));
 	}
 
 	void InfinitRightUndoAction::AddObjectDeleteValue(const IRUUID& objectUuid, const IRJson& object)
 	{
-		IR_INFO("Add object delete value change for object " + objectUuid.ToString() + "! Object: " + object.dump());
+		IR_INFO("Add object delete change for object " + objectUuid.ToString() + "! Object: " + object.dump());
 		fValues.push_back(new InfinitRightUndoValueDelete(objectUuid, object));
 	}
 

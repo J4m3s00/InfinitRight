@@ -55,10 +55,10 @@ namespace IR {
 }
 
 
-#define IR_ERROR(x) ::IR::Logging::Log(::IR::Logging::ELogType::ERROR, x, __LINE__, __FILE__)
-#define IR_DEBUG(x) ::IR::Logging::Log(::IR::Logging::ELogType::DEBUG, x, __LINE__, __FILE__)
-#define IR_UNDO(x) ::IR::Logging::Log(::IR::Logging::ELogType::UNDO, x, __LINE__, __FILE__)
-#define IR_WARN(x) ::IR::Logging::Log(::IR::Logging::ELogType::WARN, x, __LINE__, __FILE__)
-#define IR_INFO(x) ::IR::Logging::Log(::IR::Logging::ELogType::INFO, x, __LINE__, __FILE__)
+#define IR_ERROR(x) ::IR::Logging::Log(::IR::Logging::ELogType::ERROR, (x), __LINE__, __FILE__)
+#define IR_DEBUG(x) ::IR::Logging::Log(::IR::Logging::ELogType::DEBUG, (x), __LINE__, __FILE__)
+#define IR_UNDO(x) ::IR::Logging::Log(::IR::Logging::ELogType::UNDO, (x), __LINE__, __FILE__)
+#define IR_WARN(x) ::IR::Logging::Log(::IR::Logging::ELogType::WARN, (x), __LINE__, __FILE__)
+#define IR_INFO(x) ::IR::Logging::Log(::IR::Logging::ELogType::INFO, (x), __LINE__, __FILE__)
 
 #define IR_ASSERT(x, msg) if (!(x)) { ::IR::Logging::Log(::IR::Logging::ELogType::ASSERT, msg, __LINE__, __FILE__); } 

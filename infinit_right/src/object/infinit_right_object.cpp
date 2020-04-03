@@ -5,9 +5,8 @@ namespace IR {
 	InfinitRightObject::InfinitRightObject(const IRUUID& uuid)
 		:	fProperties(),
 			fName("Name", this),
-			fUuid("UUID", this)
+			fUuid("UUID", this, uuid)
 	{	
-		fUuid.SetValue(uuid);
 	}
 
 	InfinitRightObject::~InfinitRightObject()
@@ -66,6 +65,8 @@ namespace IR {
 			prop->SetJs(json);
 		}
 		OnSetJs(json);
+
+		json["ObjectType"] = fObjectType;
 	}
 
 }

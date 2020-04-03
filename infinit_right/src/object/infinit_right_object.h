@@ -11,6 +11,8 @@ namespace IR {
 		IRVector<InfinitRightProperty*>			fProperties;
 		InfinitRightValueProperty<IRString>		fName;
 		InfinitRightValueProperty<IRUUID>		fUuid;
+	protected:
+		IRString fObjectType;
 	public:
 		const IRString&								GetName() const;
 		const InfinitRightValueProperty<IRString>*	GetNameProperty() const;

@@ -37,6 +37,9 @@ namespace IR {
 	protected:
 		// {09E95D97-364C-43d5-8ADF-FF4CE0EC41A7}
 		u8		fData[16];
+	public:
+
+		static std::map<const char*, u32> TestMap;
 	};
 
 }

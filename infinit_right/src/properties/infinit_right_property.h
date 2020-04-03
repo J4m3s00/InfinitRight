@@ -24,12 +24,14 @@ namespace IR {
 	{
 	public:
 		InfinitRightValueProperty(const IRString& name, InfinitRightObject* object) : InfinitRightProperty(name, object) { fValue = new ValueType(); }
+		InfinitRightValueProperty(const IRString& name, InfinitRightObject* object, const ValueType& initValue) : InfinitRightProperty(name, object) { fValue = new ValueType(initValue); }
 		virtual ~InfinitRightValueProperty() { if (fValue) { delete fValue;  } }
 	private:
 		ValueType* fValue;
 	public:
 		void SetValue(const ValueType& value)
 		{
+			if (*fValue == value) { return; }
 			IRJson oldValue = IRJson::object();
 			IRJson newValue = IRJson::object();
 
@@ -50,7 +52,7 @@ namespace IR {
 			if (JS_CON::HasObjectProperty(fName.c_str(), json))
 			{
 				ValueType temp_value;
-				JS_CON::ConvertObject(json, temp_value);
+				JS_CON::ConvertObject(json[fName.c_str()], temp_value);
 				SetValue(temp_value);
 			}
 		}

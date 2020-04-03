@@ -20,7 +20,11 @@ namespace IR {
 
 	void InfinitRightUndoValueCreate::Redo()
 	{
-		InfinitRightApp::gApp().GetActiveDrawing()->CreateNewObject(new InfinitRightObject(fObjectUuid))->FromJs(fJSObject);
+		IRString objectType;
+		if (JS_CON::GetParamStringSafe("ObjectType", fJSObject, objectType))
+		{
+			InfinitRightApp::gApp().GetActiveDrawing()->CreateNewObject(InfinitRightApp::gApp().new_object(objectType))->FromJs(fJSObject);
+		}
 	}
 
 }
