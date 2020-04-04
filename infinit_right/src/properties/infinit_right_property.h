@@ -63,4 +63,19 @@ namespace IR {
 		}
 	};
 
+	class InfinitRightObjectProperty : public InfinitRightProperty
+	{
+	public:
+		InfinitRightObjectProperty(const IRString& name, InfinitRightObject* parentObject, InfinitRightObject* value = nullptr);
+	private:
+		InfinitRightObject* fValue;
+	public:
+		void SetValue(InfinitRightObject* value);
+
+		InfinitRightObject* GetValue() const;
+
+		virtual void FromJs(const IRJson& json);
+
+		virtual void SetJs(IRJson& json) const;
+	};
 }

@@ -11,6 +11,11 @@ namespace IR {
 		IRVector<InfinitRightProperty*>			fProperties;
 		InfinitRightValueProperty<IRString>		fName;
 		InfinitRightValueProperty<IRUUID>		fUuid;
+		InfinitRightObjectProperty				fNext;
+		InfinitRightObjectProperty				fPrev;
+		InfinitRightObjectProperty				fFirstChild;
+
+		InfinitRightObjectProperty				fInternObject;
 	protected:
 		IRString fObjectType;
 	public:
