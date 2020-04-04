@@ -108,6 +108,14 @@ const type& Get##name() const { return f##name.GetValue(); }\
 IR::InfinitRightValueProperty<type>* Get##name##Property() { return &f##name; }\
 void Set##name(const type& value) { f##name.SetValue(value); }
 
+
+#define IR_DEFINE_OBJ_PROPERTY(name) private:\
+IR::InfinitRightObjectProperty f##name;\
+public:\
+IR::InfinitRightObject* Get##name() const { return f##name.GetValue(); }\
+IR::InfinitRightObjectProperty* Get##name##Property() { return &f##name; }\
+void Set##name(IR::InfinitRightObject* value) { f##name.SetValue(value); }
+
 #define IR_INIT_PROPERTY(name) f##name(#name, this)
 #define IR_INIT_PROPERTY_A1(name, initValue) f##name(#name, this, initValue)
 

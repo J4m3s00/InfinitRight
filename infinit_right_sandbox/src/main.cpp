@@ -13,8 +13,12 @@ IR_MODULE_FN(IR_CreateNewObject)
 	IRString objectType;
 	if (JS_CON::GetParamStringSafe("ObjectType", stateObject, objectType))
 	{
-		
-		InfinitRightObject* object = InfinitRightApp::gApp().GetActiveDrawing()->CreateNewObject(InfinitRightApp::new_object(objectType));
+		IRUUID parentUuid;
+		JS_CON::GetParamUUIDSafe("ParentUuid", stateObject, parentUuid);
+		InfinitRightObject* parentObject = InfinitRightApp::gApp().GetActiveDrawing()->GetObjectByUuid(parentUuid);
+
+
+		InfinitRightObject* object = InfinitRightApp::gApp().GetActiveDrawing()->CreateNewObject(objectType, parentObject);
 
 		object->SetJs(result);
 	}
@@ -29,7 +33,7 @@ IR_MODULE_FN(IR_SetObject)
 	const IRJson& stateObject = info.input;
 
 	IRUUID objectUuid;
-	if (JS_CON::GetParamUUIDSafe("UUID", stateObject, objectUuid))
+	if (JS_CON::GetParamUUIDSafe("Uuid", stateObject, objectUuid))
 	{
 		InfinitRightObject* object = InfinitRightApp::gApp().GetActiveDrawing()->GetObjectByUuid(objectUuid);
 		if (object)
@@ -45,7 +49,7 @@ IR_MODULE_FN(IR_GetObject)
 	IRJson result = IRJson::object();
 
 	IRUUID objectUuid;
-	if (JS_CON::GetParamUUIDSafe("UUID", stateObject, objectUuid))
+	if (JS_CON::GetParamUUIDSafe("Uuid", stateObject, objectUuid))
 	{
 		InfinitRightObject* object = InfinitRightApp::gApp().GetActiveDrawing()->GetObjectByUuid(objectUuid);
 		if (object)
@@ -63,7 +67,7 @@ IR_MODULE_FN(IR_DeleteObject)
 	const IRJson& stateObject = info.input;
 
 	IRUUID objectUuid;
-	if (JS_CON::GetParamUUIDSafe("UUID", stateObject, objectUuid))
+	if (JS_CON::GetParamUUIDSafe("Uuid", stateObject, objectUuid))
 	{
 		InfinitRightApp::gApp().GetActiveDrawing()->DeleteObject(objectUuid);
 	}
@@ -95,32 +99,39 @@ int main()
 	IRJson createReq1 = IRJson::object();
 	createReq1["ObjectType"] = "TestObject";
 
+	IRJson result = InfinitRightApp::gApp().CallBridgeFunction("IR_CreateNewObject", createReq1);
+	IR_ERROR("RESULT: " + result.dump());
+
+	JS_CON::GetParamUUIDSafe("Uuid", result, firstUuid);
+
+
+
 	IRJson createReq2 = IRJson::object();
 	createReq2["ObjectType"] = "TestObject";
-
-	JS_CON::ConvertObject(InfinitRightApp::gApp().CallBridgeFunction("IR_CreateNewObject", createReq1)["UUID"], firstUuid);
-	JS_CON::ConvertObject(InfinitRightApp::gApp().CallBridgeFunction("IR_CreateNewObject", createReq2)["UUID"], secondUuid);
+	createReq2["ParentUuid"] = JS_CON::ConvertValue(firstUuid);
+	JS_CON::GetParamUUIDSafe("Uuid", InfinitRightApp::gApp().CallBridgeFunction("IR_CreateNewObject", createReq2), secondUuid);
 
 	IRJson request1 = IRJson::object();
-	request1["UUID"] = JS_CON::ConvertValue(firstUuid);
+	request1["Uuid"] = JS_CON::ConvertValue(firstUuid);
 	request1["Name"] = "First Object";
 
 
 	IRJson request2 = IRJson::object();
-	request2["UUID"] = JS_CON::ConvertValue(secondUuid);
+	request2["Uuid"] = JS_CON::ConvertValue(secondUuid);
 	request2["Name"] = "Second Object";
+	request2["Number"] = JS_CON::ConvertValue(4);
 
 	InfinitRightApp::gApp().CallBridgeFunction("IR_SetObject", request1);
 	InfinitRightApp::gApp().CallBridgeFunction("IR_SetObject", request2);
 
 
 
-	IRJson firstObject = InfinitRightApp::gApp().CallBridgeFunction("IR_GetObject", { { "UUID", JS_CON::ConvertValue(firstUuid) } });
+	IRJson firstObject = InfinitRightApp::gApp().CallBridgeFunction("IR_GetObject", { { "Uuid", JS_CON::ConvertValue(firstUuid) } });
 	IR_ERROR("PRINTING FIRST OBJECT!");
 	IR_WARN(firstObject.dump());
 	IR_ERROR("READY PRINTING FIRST OBJECT!");
 
-	IRJson secondObject = InfinitRightApp::gApp().CallBridgeFunction("IR_GetObject", { { "UUID", JS_CON::ConvertValue(firstUuid) } });
+	IRJson secondObject = InfinitRightApp::gApp().CallBridgeFunction("IR_GetObject", { { "Uuid", JS_CON::ConvertValue(secondUuid) } });
 	IR_ERROR("PRINTING SECOND OBJECT!");
 	IR_WARN(secondObject.dump());
 	IR_ERROR("READY PRINTING SECOND OBJECT!");
@@ -129,11 +140,11 @@ int main()
 
 
 	IRJson request3 = IRJson::object();
-	request3["UUID"] = JS_CON::ConvertValue(firstUuid);
+	request3["Uuid"] = JS_CON::ConvertValue(firstUuid);
 
 
 	IRJson request4 = IRJson::object();
-	request4["UUID"] = JS_CON::ConvertValue(secondUuid);
+	request4["Uuid"] = JS_CON::ConvertValue(secondUuid);
 
 	InfinitRightApp::gApp().CallBridgeFunction("IR_DeleteObject", request3);
 	InfinitRightApp::gApp().CallBridgeFunction("IR_DeleteObject", request4);

@@ -17,18 +17,24 @@ namespace IR {
 		fObjects.clear();
 	}
 
-	InfinitRightObject* InfinitRightDrawing::CreateNewObject(InfinitRightObject* object)
+	InfinitRightObject* InfinitRightDrawing::CreateNewObject(const IRString& objectType, InfinitRightObject* parent, const IRUUID& uuid)
 	{
 		InfinitRightUndoAction* currentUndoAction = InfinitRightApp::gApp().GetUndoManager().GetActiveAction();
-		fObjects[object->GetUuid()] = object;
+		InfinitRightObject* newObject = InfinitRightApp::new_object(objectType, uuid);
+		fObjects[uuid] = newObject;
+
+		if (parent)
+		{
+			parent->AddChild(newObject);
+		}
+
 		IRJson objectJson = IRJson::object();
-		object->SetJs(objectJson);
+		newObject->SetJs(objectJson);
 		if (currentUndoAction)
 		{
-			currentUndoAction->AddObjectCreateValue(object->GetUuid(), objectJson);
+			currentUndoAction->AddObjectCreateValue(uuid, objectJson);
 		}
-		//Handle create?
-		return object;
+		return newObject;
 	}
 
 	void InfinitRightDrawing::DeleteObject(const IRUUID& uuid)

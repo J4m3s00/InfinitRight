@@ -28,12 +28,14 @@ namespace IR {
 	}
 	void InfinitRightObjectProperty::SetValue(InfinitRightObject* value)
 	{
-		if (fValue->GetUuid() == value->GetUuid()) { return; }
+		if (fValue == value) { return; }
+		if (fValue && value && fValue->GetUuid() == value->GetUuid()) { return; }
+
 		IRJson oldValue = IRJson::object();
 		IRJson newValue = IRJson::object();
 
-		oldValue[fName] = JS_CON::ConvertValue(fValue->GetUuid());
-		newValue[fName] = JS_CON::ConvertValue(value->GetUuid());
+		oldValue[fName] = JS_CON::ConvertValue(fValue ? fValue->GetUuid() : IRUUID());
+		newValue[fName] = JS_CON::ConvertValue(value ? value->GetUuid() : IRUUID());
 
 		HandleValueChange(fObject, oldValue, newValue);
 		fValue = value;
@@ -63,7 +65,7 @@ namespace IR {
 					IRString objectType;
 					if (JS_CON::GetParamStringSafe("ObjectType", objectJson, objectType))
 					{
-						InfinitRightApp::gApp().GetActiveDrawing()->CreateNewObject(InfinitRightApp::new_object(objectType))->FromJs(objectJson);
+						InfinitRightApp::gApp().GetActiveDrawing()->CreateNewObject(objectType)->FromJs(objectJson);
 					}
 				}
 			}
@@ -74,10 +76,17 @@ namespace IR {
 	void InfinitRightObjectProperty::SetJs(IRJson& json) const
 	{
 		static bool recursionStop = false; //Little blocker so objects can reference each other without infinit deep json
-		if (fValue && !recursionStop)
+		if (fValue)
 		{
-			recursionStop = true;
-			fValue->SetJs(json[fName]);
+			if (recursionStop)
+			{
+				recursionStop = true;
+				fValue->SetJs(json[fName]);
+			}
+			else
+			{
+				json[fName] = JS_CON::ConvertValue(fValue->GetUuid());
+			}
 		}
 		recursionStop = false;
 	}

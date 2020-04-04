@@ -3,9 +3,14 @@
 namespace IR {
 
 	InfinitRightObject::InfinitRightObject(const IRUUID& uuid)
-		:	fProperties(),
-			fName("Name", this),
-			fUuid("UUID", this, uuid)
+		: fProperties(),
+		IR_INIT_PROPERTY_A1(Uuid, uuid),
+		IR_INIT_PROPERTY(Name),
+		IR_INIT_PROPERTY(FirstChild),
+		IR_INIT_PROPERTY(Next),
+		IR_INIT_PROPERTY(Prev),
+		IR_INIT_PROPERTY(InternContainer),
+		IR_INIT_PROPERTY(Parent)
 	{	
 	}
 
@@ -17,36 +22,6 @@ namespace IR {
 	void InfinitRightObject::PushProperty(InfinitRightProperty* prop)
 	{
 		fProperties.push_back(prop);
-	}
-
-	const IRString& InfinitRightObject::GetName() const
-	{
-		return fName.GetValue();
-	}
-
-	const InfinitRightValueProperty<IRString>* InfinitRightObject::GetNameProperty() const
-	{
-		return &fName;
-	}
-
-	void InfinitRightObject::SetName(const IRString& name)
-	{
-		fName.SetValue(name);
-	}
-
-	const IRUUID& InfinitRightObject::GetUuid() const
-	{
-		return fUuid.GetValue();
-	}
-
-	const InfinitRightValueProperty<IRUUID>* InfinitRightObject::GetUuidProperty() const
-	{
-		return &fUuid;
-	}
-
-	void InfinitRightObject::SetUuid(const IRUUID& uuid)
-	{
-		fUuid.SetValue(uuid);
 	}
 
 	void InfinitRightObject::FromJs(const IRJson& json)
@@ -69,4 +44,80 @@ namespace IR {
 		json["ObjectType"] = fObjectType;
 	}
 
+
+
+	void InfinitRightObject::AddChild(InfinitRightObject* object)
+	{
+		Delete(object);
+		InfinitRightObject* currentChild = GetFirstChild();
+		if (!currentChild)
+		{
+			SetFirstChild(object);
+		}
+		else
+		{
+			while (currentChild->GetNext())
+			{
+				currentChild = currentChild->GetNext();
+			}
+			currentChild->SetNext(object);
+			object->SetPrev(currentChild);
+			object->SetParent(currentChild->GetParent());
+		}
+	}
+
+	void InfinitRightObject::SetNewNext(InfinitRightObject* next)
+	{
+		Delete(next);
+		InfinitRightObject* currentNext = GetNext();
+
+		SetNext(next);
+		if (currentNext)
+		{
+			currentNext->SetPrev(next);
+		}
+
+		if (next)
+		{
+			next->SetNext(currentNext);
+			next->SetPrev(this);
+			next->SetParent(GetParent());
+		}
+	}
+
+	void InfinitRightObject::SetNewPrev(InfinitRightObject* prev)
+	{
+		Delete(prev);
+		InfinitRightObject* currentPrev = GetPrev();
+
+		SetPrev(prev);
+		if (currentPrev)
+		{
+			currentPrev->SetNext(prev);
+		}
+
+		if (prev)
+		{
+			prev->SetPrev(currentPrev);
+			prev->SetNext(this);
+			prev->SetParent(GetParent());
+		}
+	}
+
+
+
+
+	//STATIC HELPER FN
+	void InfinitRightObject::Delete(InfinitRightObject* obj)
+	{
+		if (!obj) { return;  }
+		InfinitRightObject* prev = obj->GetPrev();
+		InfinitRightObject* next = obj->GetNext();
+		InfinitRightObject* parent = obj->GetParent();
+
+		if (!prev && parent && parent->GetFirstChild() == obj) { parent->SetFirstChild(next); }
+
+		if (next) { next->SetPrev(prev); }
+		if (prev) { prev->SetNext(next); }
+	}
 }

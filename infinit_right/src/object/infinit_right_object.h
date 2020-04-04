@@ -9,24 +9,18 @@ namespace IR {
 		virtual ~InfinitRightObject();
 	private:
 		IRVector<InfinitRightProperty*>			fProperties;
-		InfinitRightValueProperty<IRString>		fName;
-		InfinitRightValueProperty<IRUUID>		fUuid;
-		InfinitRightObjectProperty				fNext;
-		InfinitRightObjectProperty				fPrev;
-		InfinitRightObjectProperty				fFirstChild;
 
-		InfinitRightObjectProperty				fInternObject;
+		IR_DEFINE_PROPERTY(Name, IRString);
+		IR_DEFINE_PROPERTY(Uuid, IRUUID);
+		IR_DEFINE_OBJ_PROPERTY(Parent);
+		IR_DEFINE_OBJ_PROPERTY(Next);
+		IR_DEFINE_OBJ_PROPERTY(Prev);
+		IR_DEFINE_OBJ_PROPERTY(FirstChild);
+
+		IR_DEFINE_OBJ_PROPERTY(InternContainer);
 	protected:
 		IRString fObjectType;
 	public:
-		const IRString&								GetName() const;
-		const InfinitRightValueProperty<IRString>*	GetNameProperty() const;
-		void										SetName(const IRString& name);
-
-		const IRUUID&								GetUuid() const;
-		const InfinitRightValueProperty<IRUUID>*	GetUuidProperty() const;
-		void										SetUuid(const IRUUID& name);
-
 		void FromJs(const IRJson& json);
 		void SetJs(IRJson& json) const;
 
@@ -34,6 +28,13 @@ namespace IR {
 		virtual void OnSetJs(IRJson& json) const {}
 
 		void PushProperty(InfinitRightProperty* prop);
+
+		void AddChild(InfinitRightObject* object);
+		void SetNewNext(InfinitRightObject* next);
+		void SetNewPrev(InfinitRightObject* prev);
+
+	private:
+		static void Delete(InfinitRightObject* obj); //This disconnects the object from the hierarchy
 	};
 
 }

@@ -23,7 +23,7 @@ namespace IR {
 		IRString objectType;
 		if (JS_CON::GetParamStringSafe("ObjectType", fJSObject, objectType))
 		{
-			InfinitRightApp::gApp().GetActiveDrawing()->CreateNewObject(InfinitRightApp::gApp().new_object(objectType))->FromJs(fJSObject);
+			InfinitRightApp::gApp().GetActiveDrawing()->CreateNewObject(objectType)->FromJs(fJSObject);
 		}
 	}
 
