@@ -99,6 +99,23 @@ public:\
 static clss* CreateNew(const ::IR::IRUUID uuid = ::IR::IRUUID().CreateNew()) { clss* result = new clss(uuid); result->fObjectType = #clss; return result; }
 #define  IR_END_OBJECT };
 
+
+
+#define IR_DEFINE_PROPERTY(name, type) private:\
+IR::InfinitRightValueProperty<type> f##name;\
+public:\
+const type& Get##name() const { return f##name.GetValue(); }\
+IR::InfinitRightValueProperty<type>* Get##name##Property() { return &f##name; }\
+void Set##name(const type& value) { f##name.SetValue(value); }
+
+#define IR_INIT_PROPERTY(name) f##name(#name, this)
+#define IR_INIT_PROPERTY_A1(name, initValue) f##name(#name, this, initValue)
+
+
+/*const type& get_##name() const { return f_##name.GetValue(); }\
+::IR::InfinitRightValueProperty<type>* get_##name##_property() const { return &f_##name; }\
+void set_##name(const type& value) { f_##name->SetValue(value); }*/
+
 //------------------------------------------------------------------------------------------------------
 //intern includes
 
