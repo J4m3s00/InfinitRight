@@ -78,7 +78,7 @@ namespace IR {
 		static bool recursionStop = false; //Little blocker so objects can reference each other without infinit deep json
 		if (fValue)
 		{
-			if (recursionStop)
+			if (!recursionStop)
 			{
 				recursionStop = true;
 				fValue->SetJs(json[fName]);
