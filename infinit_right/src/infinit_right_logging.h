@@ -15,7 +15,7 @@ namespace IR {
 			ASSERT
 		};
 
-		static IRString GetPrefixString(ELogType type)
+		static inline IRString GetPrefixString(ELogType type)
 		{
 			std::chrono::duration<double> duration = std::chrono::system_clock::now() - g_AppStart;
 			switch (type)
@@ -44,7 +44,7 @@ namespace IR {
 			return "";
 		}
 
-		static void Log(ELogType type, const IRString& str, u32 line, const char* file)
+		static inline void Log(ELogType type, const IRString& str, u32 line, const char* file)
 		{
 			std::cout << GetPrefixString(type) << file << "l." << line << "]" << str << std::endl;
 		}

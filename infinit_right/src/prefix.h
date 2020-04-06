@@ -1,5 +1,8 @@
 #pragma once
+
+#ifdef DS_WIN
 #pragma comment(lib, "rpcrt4.lib")  // UuidCreate - Minimum supported OS Win 2000
+#endif
 
 //------------------------------------------------------------------------------------------------------
 //DEFAULT INCLUDES

@@ -1,0 +1,13 @@
+{
+  "name": "ir_electron_test",
+  "version": "0.0.1",
+  "description": "A tes tframework",
+  "main": "index.js",
+  "scripts": {
+    "start": "node-gyp build && electron .",
+    "install": "node-gyp rebuild"
+  },
+  "author": "",
+  "license": "ISC",
+  "gypfile": true
+}

@@ -116,8 +116,8 @@ namespace IR {
 		void ConvertObject(const IRJson& ref, IRVector<T>* outValues)
 		{
 			if (!ref.is_array()) { IR_WARN("Could not convert IRJson to IRVector. IRJson is not a array: \n" + ref.dump()); return; }
-			outValues.clear();
-			outValues.resize(ref.size());
+			outValues->clear();
+			outValues->resize(ref.size());
 			int index = 0;
 			for (const IRJson& js : ref)
 			{
