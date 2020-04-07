@@ -1,7 +1,11 @@
 #include "prefix.h"
 
-
+#ifdef DS_WIN
 #include <windows.h>
+#elif  DS_MAC
+#include <CoreFoundation/CoreFoundation.h>
+#endif
+
 
 namespace IR {
 
@@ -79,6 +83,7 @@ namespace IR {
 
 	const IRUUID& IRUUID::CreateNew()
 	{
+		#ifdef DS_WIN
 		GUID	guid;
 		UuidCreateSequential(&guid);
 
@@ -104,6 +109,29 @@ namespace IR {
 		fData[13] = guid.Data4[5];
 		fData[14] = guid.Data4[6];
 		fData[14] = guid.Data4[7];
+#else
+	auto newId = CFUUIDCreate(kCFAllocatorDefault);
+	auto bytes = CFUUIDGetUUIDBytes(newId);
+	CFRelease(newId);
+
+	fData[0]  =	bytes.byte0;
+	fData[1]  =	bytes.byte1;
+	fData[2]  =	bytes.byte2;
+	fData[3]  =	bytes.byte3;
+	fData[4]  =	bytes.byte4;
+	fData[5]  =	bytes.byte5;
+	fData[6]  =	bytes.byte6;
+	fData[7]  =	bytes.byte7;
+	fData[8]  =	bytes.byte8;
+	fData[9]  =	bytes.byte9;
+	fData[10] =	bytes.byte10;
+	fData[11] =	bytes.byte11;
+	fData[12] =	bytes.byte12;
+	fData[13] =	bytes.byte13;
+	fData[14] =	bytes.byte14;
+	fData[14] =	bytes.byte15;
+
+	#endif
 
 		return *this;
 	}

@@ -4,10 +4,14 @@
   "description": "A tes tframework",
   "main": "index.js",
   "scripts": {
-    "start": "node-gyp build && electron .",
+    "start": "HOME=~/.electron-gyp node-gyp rebuild --target=8.2.0 --arch=x64 --dist-url=https://atom.io/download/electron && electron .",
     "install": "node-gyp rebuild"
   },
   "author": "",
   "license": "ISC",
-  "gypfile": true
+  "gypfile": true,
+  "devDependencies": {
+    "electron": "^8.2.0",
+    "electron-rebuild": "^1.10.1"
+  }
 }

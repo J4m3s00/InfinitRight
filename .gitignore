@@ -2,3 +2,6 @@
 Debug/
 infinit_right/Debug/
 infinit_right/x64/
+
+ir_electron_test/node_modules
+ir_electron_test/build
