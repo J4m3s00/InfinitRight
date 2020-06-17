@@ -4,6 +4,7 @@
     {
       "target_name": "binding",
       "include_dirs": [
+        "<!(node -e \"require('nan')\")", 
           "../infinit_right/src/"
       ],
       "sources": [ "../infinit_right/../scrpts/../infinit_right/src/drawing/infinit_right_drawing.cpp",

@@ -47,6 +47,7 @@ namespace IR {
 		IR_ModuleFunctionInfo info = IR_ModuleFunctionInfo( input );
 		if (function)
 		{
+			IR_INFO("call " + name);
 			function(info);
 		}
 		return info.fReturnValue;

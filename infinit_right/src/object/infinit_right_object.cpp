@@ -4,13 +4,13 @@ namespace IR {
 
 	InfinitRightObject::InfinitRightObject(const IRUUID& uuid)
 		: fProperties(),
-		IR_INIT_PROPERTY_A1(Uuid, uuid),
 		IR_INIT_PROPERTY(Name),
-		IR_INIT_PROPERTY(FirstChild),
+		IR_INIT_PROPERTY_A1(Uuid, uuid),
+		IR_INIT_PROPERTY(Parent),
 		IR_INIT_PROPERTY(Next),
 		IR_INIT_PROPERTY(Prev),
-		IR_INIT_PROPERTY(InternContainer),
-		IR_INIT_PROPERTY(Parent)
+		IR_INIT_PROPERTY(FirstChild),
+		IR_INIT_PROPERTY(InternContainer)
 	{	
 	}
 

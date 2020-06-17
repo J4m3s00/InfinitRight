@@ -20,6 +20,7 @@ namespace IR {
 	void InfinitRightUndoManager::SetActiveAction(InfinitRightUndoAction* action)
 	{
 		fActiveAction = action;
+		IR_INFO(action->fName);
 	}
 
 	void InfinitRightUndoManager::DoUndo()

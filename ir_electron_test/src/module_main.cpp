@@ -1,9 +1,20 @@
 #include "prefix.h"
-#include <node/node.h>
+#include <nan.h>
+#include <v8.h>
 
 #include "objects/TestObject.h"
 
 using namespace IR;
+
+IR_MODULE_FN(IR_Init)
+{
+	IR_INFO("Init app");
+	////////////////////////////////ALWAYS FIRST//////////////////////////////
+	InfinitRightApp::gApp().Initialize();
+	///////////////////////////////////////////////////////////////////////////
+	InfinitRightDrawing* drawing = new InfinitRightDrawing("TestDrawing");
+	InfinitRightApp::gApp().SetActiveDrawing(drawing);
+}
 
 IR_MODULE_FN(IR_CreateNewObject)
 {
@@ -78,19 +89,55 @@ IR_EXPORT
 {
 	IR_REGISTER_OBJECT(TestObject);
 
+	IR_REGISTER_METHOD(IR_Init);
 	IR_REGISTER_METHOD(IR_CreateNewObject); 
 	IR_REGISTER_METHOD(IR_SetObject);
 	IR_REGISTER_METHOD(IR_DeleteObject);
 	IR_REGISTER_METHOD(IR_GetObject);
 }
 
-void TestMethod(const v8::FunctionCallbackInfo<v8::Value>& args) {
-	IR_INFO("Hello INFO");
+NAN_METHOD(IR_Call)
+{
+	
+	v8::Local<v8::Object> stateObject = info[0].As<v8::Object>();
 
+	v8::Local<v8::Value> functionString = Nan::Get(stateObject, Nan::New<v8::String>("fn").ToLocalChecked()).ToLocalChecked();
+	if (functionString->IsString())
+	{
+		IRString func = *Nan::Utf8String(functionString.As<v8::String>());
+		IR_INFO("CALLING " + func);
+
+
+		v8::Local<v8::Value> maybeArgValue = Nan::Get(stateObject, Nan::New<v8::String>("args").ToLocalChecked()).ToLocalChecked();
+		IRJson args = IRJson::object();
+
+		if (maybeArgValue->IsObject())
+		{
+			v8::Local<v8::Object> argsObject = maybeArgValue.As<v8::Object>();
+			
+
+			IR_ASSERT( !argsObject->IsNullOrUndefined(), "Arguments for IR_Call are null");
+			if ( ! argsObject->IsNullOrUndefined()) 
+			{
+				Nan::JSON __json;
+				v8::MaybeLocal<v8::String> v8_str = __json.Stringify(argsObject.As<v8::Object>());
+
+				IR_ASSERT(! argsObject.IsEmpty(), "Args are empty!");
+				if( ! v8_str.IsEmpty())
+				{
+					std::string json = *Nan::Utf8String(v8_str.ToLocalChecked());
+					args = IRJson::parse(json);
+				}
+			}            
+		}
+			
+		InfinitRightApp::gApp().CallBridgeFunction(func, args);
+	}
 }
 
-void Initialize(v8::Local<v8::Object> exports) {
-  NODE_SET_METHOD(exports, "hello", TestMethod);
+NAN_MODULE_INIT(Initialize)
+{
+  NAN_EXPORT(target, IR_Call);
 }
 
 
