@@ -104,8 +104,6 @@ int main()
 
 	JS_CON::GetParamUUIDSafe("Uuid", result, firstUuid);
 
-
-
 	IRJson createReq2 = IRJson::object();
 	createReq2["ObjectType"] = "TestObject";
 	createReq2["ParentUuid"] = JS_CON::ConvertValue(firstUuid);
