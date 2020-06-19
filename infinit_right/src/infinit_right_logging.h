@@ -44,11 +44,16 @@ namespace IR {
 			return "";
 		}
 
-		static inline void Log(ELogType type, const IRString& str, u32 line, const char* file)
+		static inline IRString GetFileNameFromPath(const IRString& path)
 		{
-			std::cout << GetPrefixString(type) << file << "l." << line << "]" << str << std::endl;
+			size_t lastSlashPos = path.find_last_of('/');
+			return path.substr(lastSlashPos + 1);
 		}
 
+		static inline void Log(ELogType type, const IRString& str, u32 line, const char* file)
+		{
+			std::cout << GetPrefixString(type) << GetFileNameFromPath(file) << "l." << line << "]" << str << std::endl;
+		}
 
 	}
 
