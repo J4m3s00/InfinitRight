@@ -10,7 +10,6 @@ namespace IR {
 
 	InfinitRightUndoAction::~InfinitRightUndoAction()
 	{
-		InfinitRightApp::gApp().GetUndoManager().SetActiveAction(nullptr);
 	}
 
 	void InfinitRightUndoAction::AddObjectChangeValue(const IRUUID& objectUuid, const IRJson& oldValue, const IRJson& newValue)

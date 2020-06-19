@@ -1,8 +1,8 @@
 #include "prefix.h"
 
-#ifdef DS_WIN
+#ifdef IR_WIN
 #include <windows.h>
-#elif  DS_MAC
+#elif  IR_MAC
 #include <CoreFoundation/CoreFoundation.h>
 #endif
 
@@ -83,7 +83,7 @@ namespace IR {
 
 	const IRUUID& IRUUID::CreateNew()
 	{
-		#ifdef DS_WIN
+		#ifdef IR_WIN
 		GUID	guid;
 		UuidCreateSequential(&guid);
 
