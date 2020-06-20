@@ -12,7 +12,7 @@ class App extends React.Component
   render()
   {
     return <Segment>
-      <Button onClick={(e) => {InfinitCore.IR_CreateNewObject({})}} >Create New Object</Button>
+      <Button onClick={(e) => {InfinitCore.IR_CreateNewObject({ObjectType: 1, Count: 3})}} >Create New Object</Button>
       <SceneTreeComponent />
     </Segment>
   }

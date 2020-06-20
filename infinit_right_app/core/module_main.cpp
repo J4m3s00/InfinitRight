@@ -17,6 +17,7 @@ IR_MODULE_FN(IR_CreateNewObject)
   InfinitRightObject* parentObject = InfinitRightApp::gApp().GetActiveDrawing()->GetObjectByUuid(parentUuid);
 
   InfinitRightObject* object = InfinitRightApp::gApp().GetActiveDrawing()->CreateNewObject(objectType, parentObject);
+  object->FromJs(stateObject);
 
   object->SetJs(result);
 
@@ -26,7 +27,7 @@ IR_MODULE_FN(IR_CreateNewObject)
 IR_EXPORT 
 {
   IR_REGISTER_OBJECT(InfinitRightDrawingObject);
-  
+
 
   IR_REGISTER_METHOD(IR_CreateNewObject);
 }

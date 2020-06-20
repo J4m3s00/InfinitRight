@@ -19,6 +19,7 @@
                     "../infinit_right/src/properties/infinit_right_json_converter.cpp",
                     "../infinit_right/src/properties/infinit_right_property.cpp",
                     "../infinit_right/src/object/infinit_right_object.cpp",
+                    "core/objects/infinit_right_drawing_object.cpp",
                     "core/module_main.cpp"
  ],
        "defines": [ "IR_MAC", "IR_NAN_SUPPORT" ]
