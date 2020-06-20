@@ -1,5 +1,7 @@
 import React from 'react';
-import Infinit from './server_connection';
+import {Segment, Button} from "semantic-ui-react"
+import SceneTreeComponent from './components/SceneTreeComponent';
+import InfinitCore from './server_connection';
 
 class App extends React.Component
 {
@@ -9,9 +11,10 @@ class App extends React.Component
 
   render()
   {
-    return <div>
-      <button onClick={(e) => { Infinit.IR_CreateNewObject({}); } }></button>
-    </div>
+    return <Segment>
+      <Button onClick={(e) => {InfinitCore.IR_CreateNewObject({})}} >Create New Object</Button>
+      <SceneTreeComponent />
+    </Segment>
   }
 }
 

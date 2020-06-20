@@ -5,7 +5,7 @@ namespace IR {
 	class InfinitRightObject
 	{
 	public:
-		static InfinitRightObject* CreateNew(const ::IR::IRUUID uuid = ::IR::IRUUID().CreateNew()) { InfinitRightObject* result = new InfinitRightObject(uuid); result->fObjectType = "InfinitRightObject"; return result; }
+		static InfinitRightObject* CreateNew(const ::IR::IRUUID uuid = ::IR::IRUUID().CreateNew());
 	public:
 		InfinitRightObject(const IRUUID& uuid = IRUUID().CreateNew());
 		virtual ~InfinitRightObject();
@@ -15,7 +15,7 @@ namespace IR {
 		IR_DEFINE_PROPERTY(Name, IRString);
 		IRUUID fUuid;
 	protected:
-		IRString fObjectType;
+		u32 fObjectType;
 	public:
 		void FromJs(const IRJson& json);
 		void SetJs(IRJson& json) const;

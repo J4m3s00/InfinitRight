@@ -17,7 +17,7 @@ namespace IR {
 		fObjects.clear();
 	}
 
-	InfinitRightObject* InfinitRightDrawing::CreateNewObject(const IRString& objectType, InfinitRightObject* parent, const IRUUID& uuid)
+	InfinitRightObject* InfinitRightDrawing::CreateNewObject(u32 objectType, InfinitRightObject* parent, const IRUUID& uuid)
 	{
 		InfinitRightUndoAction* currentUndoAction = InfinitRightApp::gApp().GetUndoManager().GetActiveAction();
 		InfinitRightObject* newObject = InfinitRightApp::new_object(objectType, uuid);

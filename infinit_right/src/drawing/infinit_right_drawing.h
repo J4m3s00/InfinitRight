@@ -10,7 +10,7 @@ namespace IR {
 	private:
 		TObjectMap				fObjects;
 	public:
-		InfinitRightObject*			CreateNewObject(const IRString& objectType, InfinitRightObject* parent = nullptr, const IRUUID& uuid = IRUUID().CreateNew());
+		InfinitRightObject*			CreateNewObject(u32 objectType, InfinitRightObject* parent = nullptr, const IRUUID& uuid = IRUUID().CreateNew());
 		void						DeleteObject(const IRUUID& uuid);
 
 		InfinitRightObject*			GetObjectByUuid(const IRUUID& uuid);

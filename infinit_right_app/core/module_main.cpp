@@ -1,4 +1,5 @@
 #include "prefix.h"
+#include "objects/infinit_right_drawing_object.h"
 
 using namespace IR;
 
@@ -8,17 +9,13 @@ IR_MODULE_FN(IR_CreateNewObject)
 	const IRJson& stateObject = info.input;
 	IRJson result = IRJson::object();
 
-	IRString objectType;
-	JS_CON::GetParamStringSafe("ObjectType", stateObject, objectType);
+	u32 objectType = 0;
+	JS_CON::GetParamUintSafe("ObjectType", stateObject, objectType);
   
   IRUUID parentUuid;
   JS_CON::GetParamUUIDSafe("ParentUuid", stateObject, parentUuid);
   InfinitRightObject* parentObject = InfinitRightApp::gApp().GetActiveDrawing()->GetObjectByUuid(parentUuid);
 
-  if (objectType.empty())
-  {
-   objectType = "InfinitRightObject"; 
-  }
   InfinitRightObject* object = InfinitRightApp::gApp().GetActiveDrawing()->CreateNewObject(objectType, parentObject);
 
   object->SetJs(result);
@@ -28,9 +25,11 @@ IR_MODULE_FN(IR_CreateNewObject)
 
 IR_EXPORT 
 {
+  IR_REGISTER_OBJECT(InfinitRightDrawingObject);
+  
+
   IR_REGISTER_METHOD(IR_CreateNewObject);
 }
-
 
 
 

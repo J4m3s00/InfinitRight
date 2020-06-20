@@ -1,6 +1,14 @@
 #include "prefix.h"
 
 namespace IR {
+ 
+ 
+ 	InfinitRightObject* InfinitRightObject::CreateNew(const ::IR::IRUUID uuid)
+	{ 
+		InfinitRightObject* result = new InfinitRightObject(uuid); 
+		result->fObjectType = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName("InfinitRightObject"); 
+		return result; 
+	}
 
 	InfinitRightObject::InfinitRightObject(const IRUUID& uuid)
 		: fProperties(),

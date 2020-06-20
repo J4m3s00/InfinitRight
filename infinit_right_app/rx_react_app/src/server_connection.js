@@ -13,12 +13,12 @@ export let ServerConnection = {
     }
 }
 
-let Infinit = {}
+class InfinitCore {}
 
-Infinit.IR_CreateNewObject = async function (object)
+InfinitCore.IR_CreateNewObject = async function (object)
 {
     let result = await ServerConnection.call("IR_CreateNewObject", object)
     return result;
 }
 
-export default Infinit;
+export default InfinitCore;

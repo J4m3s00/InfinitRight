@@ -76,8 +76,8 @@ IR_MODULE_FN(IR_CreateNewObject)
 	const IRJson& stateObject = info.input;
 	IRJson result = IRJson::object();
 
-	IRString objectType;
-	if (JS_CON::GetParamStringSafe("ObjectType", stateObject, objectType))
+	u32 objectType;
+	if (JS_CON::GetParamUintSafe("ObjectType", stateObject, objectType))
 	{
 		IRUUID parentUuid;
 		JS_CON::GetParamUUIDSafe("ParentUuid", stateObject, parentUuid);

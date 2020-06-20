@@ -14,7 +14,8 @@ namespace IR {
 		InfinitRightUndoManager			fUndoManager;
 
 		IRMap<IRString, TBridgeFn>		fBridgeFns;
-		IRMap<IRString, TObjectConstFn>	fObjectTypes;
+		IRVector<TObjectConstFn>		fObjectTypes;
+		IRMap<IRString, u32>			fObjectTypeNameIdMap;
 	public:
 		void							Initialize();
 
@@ -28,8 +29,9 @@ namespace IR {
 		IRJson CallBridgeFunction(const IRString& name, const IRJson& input);
 
 		void RegisterObject(const IRString& name, const TObjectConstFn& fn);
+		u32 GetObjectIdFromTypeName(const IRString& objectTypeName);
 
-		static InfinitRightObject* new_object(const IRString& type, const IRUUID& uuid = IRUUID().CreateNew());
+		static InfinitRightObject* new_object(u32 type, const IRUUID& uuid = IRUUID().CreateNew());
 		//GETTER FOR THE INIT FN
 	public:
 

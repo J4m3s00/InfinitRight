@@ -62,17 +62,27 @@ namespace IR {
 
 	void InfinitRightApp::RegisterObject(const IRString& type, const TObjectConstFn& fn)
 	{
-		fObjectTypes[type] = fn;
+		IRMap<IRString, u32>::iterator typeIterator = fObjectTypeNameIdMap.find(type);
+		if (typeIterator == fObjectTypeNameIdMap.end()) //We couldnt found the type key. Create new one
+		{
+			fObjectTypeNameIdMap[type] = fObjectTypes.size();
+			fObjectTypes.push_back(fn);
+		}
 	}
 
-	InfinitRightObject* InfinitRightApp::new_object(const IRString& type, const IRUUID& uuid)
+	u32 InfinitRightApp::GetObjectIdFromTypeName(const IRString& objectTypeName)
+	{
+		return fObjectTypeNameIdMap[objectTypeName];
+	}
+
+	InfinitRightObject* InfinitRightApp::new_object(u32 type, const IRUUID& uuid)
 	{
 		const TObjectConstFn& fn = gApp().fObjectTypes[type];
 		if (fn)
 		{
 			return fn(uuid);
 		}
-		IR_ERROR("Could not find object type :" + type);
+		IR_ERROR("Could not find object type :" + std::to_string(type));
 		return nullptr;
 	}
 }

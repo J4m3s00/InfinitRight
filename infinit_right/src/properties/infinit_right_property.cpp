@@ -62,8 +62,8 @@ namespace IR {
 				} //If we could not find the object with the uuid we crete it
 				else
 				{
-					IRString objectType;
-					if (JS_CON::GetParamStringSafe("ObjectType", objectJson, objectType))
+					u32 objectType;
+					if (JS_CON::GetParamUintSafe("ObjectType", objectJson, objectType))
 					{
 						InfinitRightApp::gApp().GetActiveDrawing()->CreateNewObject(objectType)->FromJs(objectJson);
 					}
