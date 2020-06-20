@@ -42,9 +42,6 @@ struct GlobalData {
 };
 
 
-
-
-
 void CallCoreFn(const v8::FunctionCallbackInfo<v8::Value>& args) {
     std::cout << "Call core" << std::endl;
     if (args[0]->IsObject())
@@ -73,14 +70,12 @@ void RegisterCallbackFn(const v8::FunctionCallbackInfo<v8::Value>& info)
 void Initialize(v8::Local<v8::Object> exports) {
   IR::InfinitRightApp::gApp().Initialize();
   IR::InfinitRightApp::gApp().SetUserData(new GlobalData());
+
+
   IR::InfinitRightApp::gApp().RegisterChangeCallbackFunction([](const IRString& command, const IRJson& args) {
     GlobalData* data = IR::InfinitRightApp::gApp().UserData<GlobalData>();
     if (data->connected){
-      Nan::AsyncResource resource("RunCallback_ChangeEvent");
-
-
-    v8::Local<v8::Value> argv[] = {JS_CON::GetV8FromJson(args)};
-
+      v8::Local<v8::Value> argv[] = {JS_CON::GetV8FromJson(args)};
       Nan::Call(data->ChangeCallback, 1, argv);
     }
   });
