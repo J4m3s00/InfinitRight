@@ -4,7 +4,10 @@ Debug/
 infinit_right/Debug/
 infinit_right/x64/
 
-ir_electron_test/node_modules
-ir_electron_test/build
+infinit_right_app/rx_react_app/node_modules
+infinit_right_app/node_modules
+infinit_right_app/build
+
+
 
 *.DS_Store

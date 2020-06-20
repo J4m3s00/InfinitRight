@@ -1,0 +1,17 @@
+{
+  "name": "infinit_right_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node-gyp build && node index.js",
+    "install": "node-gyp rebuild"
+  },
+  "author": "James",
+  "license": "ISC",
+  "gypfile": true,
+  "dependencies": {
+    "nan": "^2.14.1",
+    "socket.io": "^2.3.0"
+  }
+}

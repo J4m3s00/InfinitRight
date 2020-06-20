@@ -34,6 +34,11 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#ifdef IR_NAN_SUPPORT
+#include <node.h>
+#include <nan.h>
+#endif
+
 //------------------------------------------------------------------------------------------------------
 //Typedefs
 
@@ -89,8 +94,6 @@ typedef std::function < void(IR_ModuleFunctionInfo & input)>	TBridgeFn;
 
 //------------------------------------------------------------------------------------------------------
 //DEFINES
-
-
 #define IR_EXPORT void infinit_right_register_bridge_function()
 #define IR_REGISTER_METHOD(fn) ::IR::InfinitRightApp::gApp().RegisterBridgeFunction(#fn, fn)
 #define IR_REGISTER_OBJECT(objClss) ::IR::InfinitRightApp::gApp().RegisterObject(#objClss, objClss::CreateNew )
@@ -129,7 +132,6 @@ void set_##name(const type& value) { f_##name->SetValue(value); }*/
 
 //------------------------------------------------------------------------------------------------------
 //intern includes
-
 extern IR_EXPORT; //Function Header need to be somewhere. A implementation of this function is necessery
 
 #include "infinit_right_logging.h"

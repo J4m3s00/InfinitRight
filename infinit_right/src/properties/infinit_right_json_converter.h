@@ -125,6 +125,14 @@ namespace IR {
 			}
 		}
 
+
+		
+#ifdef IR_NAN_SUPPORT
+        IRJson                  GetJsonFromV8(v8::Local<v8::Value> v8_value);
+        v8::Local<v8::Value>    GetV8FromJson(const IRJson& json_value);
+#else
+		const IRJson&           GetJsonFromV8(const IRJson& json_value);
+#endif
 	}
 
 }

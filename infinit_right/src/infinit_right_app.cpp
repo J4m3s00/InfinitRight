@@ -1,10 +1,16 @@
 #include "prefix.h"
 
+#ifdef _DSWIN
+#include <process.h> /* for getpid() */
+#else
+#include <unistd.h> /* for getpid() */
+#endif
 namespace IR {
 
 	InfinitRightApp::InfinitRightApp()
 	{
 		fActiveDrawing = nullptr;
+		IR_INFO("Application PID: " + std::to_string(getpid()));
 	}
 
 	InfinitRightApp::~InfinitRightApp()
@@ -18,6 +24,8 @@ namespace IR {
 
 	void InfinitRightApp::Initialize()
 	{
+		fActiveDrawing = new InfinitRightDrawing("Drawing 1");
+		IR_REGISTER_OBJECT(InfinitRightObject);
 		infinit_right_register_bridge_function();
 	}
 

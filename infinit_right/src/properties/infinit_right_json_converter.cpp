@@ -585,4 +585,53 @@ namespace IR { namespace JS_CON {
 		}
 
 
+#ifdef IR_NAN_SUPPORT
+        IRJson GetJsonFromV8(v8::Local<v8::Value> v8_value)
+        {
+            IRJson retVal = IRJson::object();
+            IR_ASSERT(! v8_value->IsNullOrUndefined(), "V8 Value is undefined");
+            if ( ! v8_value->IsNullOrUndefined()) 
+            {
+                Nan::JSON __json;
+                v8::MaybeLocal<v8::String> v8_str = __json.Stringify(v8_value.As<v8::Object>());
+
+                IR_ASSERT(! v8_str.IsEmpty(), "v8 string is empty");
+                if( ! v8_str.IsEmpty())
+                {
+                    std::string json = *Nan::Utf8String(v8_str.ToLocalChecked());
+                    retVal = IRJson::parse(json);
+                }
+            }            
+            return retVal;
+        }
+
+        v8::Local<v8::Value> GetV8FromJson(const IRJson& json_value)
+        {
+            std::string str = json_value.dump();
+
+            if(json_value.is_null()) 
+            { 
+                return Nan::Undefined(); 
+            }
+           
+            Nan::JSON __json;
+            v8::MaybeLocal<v8::Value> maybe = __json.Parse(Nan::New<v8::String>(str).ToLocalChecked());
+
+            IR_ASSERT( ! maybe.IsEmpty(), "Value is empty");
+            if(maybe.IsEmpty())
+            {
+                return Nan::New<v8::Object>();
+            }
+            
+            v8::Local<v8::Value> out = maybe.ToLocalChecked();
+            return out;
+        }		
+
+#else
+		const IRJson& GetJsonFromV8(const IRJson& json_value)
+		{
+			return json_value;
+		}
+
+#endif
 } }

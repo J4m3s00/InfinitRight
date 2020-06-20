@@ -5,6 +5,8 @@ namespace IR {
 	class InfinitRightObject
 	{
 	public:
+		static InfinitRightObject* CreateNew(const ::IR::IRUUID uuid = ::IR::IRUUID().CreateNew()) { InfinitRightObject* result = new InfinitRightObject(uuid); result->fObjectType = "InfinitRightObject"; return result; }
+	public:
 		InfinitRightObject(const IRUUID& uuid = IRUUID().CreateNew());
 		virtual ~InfinitRightObject();
 	private:
