@@ -75,7 +75,11 @@ void Initialize(v8::Local<v8::Object> exports) {
   IR::InfinitRightApp::gApp().RegisterChangeCallbackFunction([](const IRString& command, const IRJson& args) {
     GlobalData* data = IR::InfinitRightApp::gApp().UserData<GlobalData>();
     if (data->connected){
-      v8::Local<v8::Value> argv[] = {JS_CON::GetV8FromJson(args)};
+      IRJson input = IRJson::object();
+      input["Command"] = command;
+      input["Args"] = args;
+
+      v8::Local<v8::Value> argv[] = {JS_CON::GetV8FromJson(input)};
       Nan::Call(data->ChangeCallback, 1, argv);
     }
   });

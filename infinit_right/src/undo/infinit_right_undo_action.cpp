@@ -16,7 +16,21 @@ namespace IR {
 
 		// Loop all values
 		// 
-		InfinitRightApp::gApp().StartChangeCallback("something-changed", {"Count", 420});
+		/**
+		 * 
+		 * { Changes: {DrawingObjects: [{UUID: ..., OldValue(s): ..., NewValue(s): ...}]}
+		 * Changed, Created, deleted
+		 * 
+		 */
+		IRJson callbackJson = IRJson::object();
+		callbackJson["Changes"] 	= IRJson::object();
+		callbackJson["Deletions"] 	= IRJson::object();
+		callbackJson["Creations"] 	= IRJson::object();
+		for (InfinitRightUndoValue* undoValue : fValues)
+		{
+			
+		}
+		InfinitRightApp::gApp().StartChangeCallback("something-changed", {});
 	}
 
 	void InfinitRightUndoAction::AddObjectChangeValue(const IRUUID& objectUuid, const IRJson& oldValue, const IRJson& newValue)

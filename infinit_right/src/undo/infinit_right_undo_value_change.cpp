@@ -34,4 +34,9 @@ namespace IR {
 		}
 	}
 
+	void InfinitRightUndoValueChange::WriteCallbackJson(IRJson& json)
+	{
+		if (!JS_CON::HasObjectProperty("Changes", json)) { json["Changes"] = IRJson::object(); }
+		if (!JS_CON::HasObjectProperty());
+	}
 }

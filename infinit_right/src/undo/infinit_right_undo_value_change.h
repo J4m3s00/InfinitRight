@@ -13,7 +13,8 @@ namespace IR {
 	public:
 		virtual void Undo();
 		virtual void Redo();
-		virtual void RunCallbacks() {}
+		
+		virtual void WriteCallbackJson(IRJson& json);
 	};
 
 }
