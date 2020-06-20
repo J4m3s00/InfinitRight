@@ -1,3 +1,4 @@
+#define IR_NAN_SUPPORT
 #include "prefix.h"
 #include "objects/infinit_right_drawing_object.h"
 
@@ -33,6 +34,12 @@ IR_EXPORT
 }
 
 
+#include <nan.h>
+#include <v8.h>
+struct GlobalData {
+  bool connected = false;
+  Nan::Callback ChangeCallback;
+};
 
 
 
@@ -57,10 +64,29 @@ void CallCoreFn(const v8::FunctionCallbackInfo<v8::Value>& args) {
     }
 }
 
+void RegisterCallbackFn(const v8::FunctionCallbackInfo<v8::Value>& info)
+{
+  IR::InfinitRightApp::gApp().UserData<GlobalData>()->ChangeCallback.Reset(info[0].As<v8::Function>());
+  IR::InfinitRightApp::gApp().UserData<GlobalData>()->connected = true;
+}
+
 void Initialize(v8::Local<v8::Object> exports) {
   IR::InfinitRightApp::gApp().Initialize();
+  IR::InfinitRightApp::gApp().SetUserData(new GlobalData());
+  IR::InfinitRightApp::gApp().RegisterChangeCallbackFunction([](const IRString& command, const IRJson& args) {
+    GlobalData* data = IR::InfinitRightApp::gApp().UserData<GlobalData>();
+    if (data->connected){
+      Nan::AsyncResource resource("RunCallback_ChangeEvent");
+
+
+    v8::Local<v8::Value> argv[] = {JS_CON::GetV8FromJson(args)};
+
+      Nan::Call(data->ChangeCallback, 1, argv);
+    }
+  });
 
   NODE_SET_METHOD(exports, "CallCoreFunction", CallCoreFn);
+  NODE_SET_METHOD(exports, "RegisterCallbackFn", RegisterCallbackFn);
 }
 
 NODE_MODULE(InfinitRight, Initialize)

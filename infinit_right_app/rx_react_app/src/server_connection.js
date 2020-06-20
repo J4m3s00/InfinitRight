@@ -1,9 +1,11 @@
 
 export let ServerConnection = {
     socket: null,
+    cbfn: (args) => {},
     setupConnect: function () {
         // eslint-disable-next-line no-undef
         this.socket = io("http://localhost:420")
+        this.socket.on("callback", console.log)
     },
     call: function (commandString, args) {
       return new Promise((resolve, reject) => {

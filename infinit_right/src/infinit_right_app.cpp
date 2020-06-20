@@ -8,6 +8,7 @@
 namespace IR {
 
 	InfinitRightApp::InfinitRightApp()
+		: fUserData(nullptr)
 	{
 		fActiveDrawing = nullptr;
 		IR_INFO("Application PID: " + std::to_string(getpid()));
@@ -20,6 +21,10 @@ namespace IR {
 			delete drawing;
 		}
 		fLoadedDrawings.clear();
+		if (fUserData)
+		{
+			free(fUserData);
+		}
 	}
 
 	void InfinitRightApp::Initialize()
@@ -67,6 +72,18 @@ namespace IR {
 		{
 			fObjectTypeNameIdMap[type] = fObjectTypes.size();
 			fObjectTypes.push_back(fn);
+		}
+	}
+	void InfinitRightApp::RegisterChangeCallbackFunction(const TCallbackFn& fn)
+	{ 
+		fRegisteredCallbackFunction = fn; 
+	}
+
+	void InfinitRightApp::StartChangeCallback(const IRString& commandString, const IRJson& args)
+	{
+		if (fRegisteredCallbackFunction)
+		{
+			fRegisteredCallbackFunction(commandString, args);
 		}
 	}
 

@@ -66,6 +66,7 @@ template <typename T1, typename T2>
 using IRMap = std::map<T1, T2>;
 
 typedef std::function< IR::InfinitRightObject * (const IR::IRUUID& uuid) >	TObjectConstFn;
+typedef std::function< void (const IRString& command, const IRJson& args) > TCallbackFn;
 
 
 /////////////////////////////////////////BRIDGING

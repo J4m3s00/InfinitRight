@@ -10,6 +10,13 @@ namespace IR {
 
 	InfinitRightUndoAction::~InfinitRightUndoAction()
 	{
+		//End action
+		//Deff between object types
+		//	->  Diff between create / change / delete
+
+		// Loop all values
+		// 
+		InfinitRightApp::gApp().StartChangeCallback("something-changed", {"Count", 420});
 	}
 
 	void InfinitRightUndoAction::AddObjectChangeValue(const IRUUID& objectUuid, const IRJson& oldValue, const IRJson& newValue)
