@@ -1,3 +1,69 @@
+#if 0
+#include <string>
+
+#include "gravity_compiler.h"
+#include "gravity_core.h"
+#include "gravity_vm.h"
+#include "gravity_macros.h"
+#include "gravity_vmmacros.h"
+#include "gravity_opcodes.h"
+
+void report_error (gravity_vm *vm, error_type_t error_type, const char *description, error_desc_t error_desc, void *xdata) {
+        printf("%s\n", description);
+        exit(0);
+    }
+
+bool my_function (gravity_vm *vm, gravity_value_t *args, uint16_t nargs, uint32_t rindex) {
+        // do something useful here
+		printf("My Func nargs: %d", nargs);
+    
+        gravity_object_t* obj = VALUE_AS_OBJECT(args[0]);
+
+		gravity_string_t* str = VALUE_AS_STRING(args[1]);
+		const char* c  = str->s;
+		printf("%s\n", c);
+
+		gravity_vm_setslot(vm, VALUE_FROM_CSTRING(vm, "THIS IS RESULT"), rindex);
+		return true;
+    }
+
+	#define SOURCE "extern var MyClass;func main() {var foo = MyClass(); var res = foo.myfunc(\"Hello World\"); System.print(res);}"
+
+
+int main()
+{
+	gravity_delegate_t delegate = {
+        .error_callback = report_error
+    };
+    
+    // setup compiler
+    gravity_vm *vm = gravity_vm_new(&delegate);
+    gravity_class_t *c = gravity_class_new_pair (vm, "MyClass", NULL, 0, 0);
+
+    // Allocate and bind closures to the newly created class
+    gravity_class_bind(c, "myfunc", NEW_CLOSURE_VALUE(my_function));
+
+    // Register class inside VM
+    gravity_vm_setvalue(vm, "MyClass", VALUE_FROM_OBJECT(c));
+
+	gravity_compiler_t *compiler = gravity_compiler_create(&delegate);
+
+
+    gravity_closure_t *closure = gravity_compiler_run(compiler, SOURCE, strlen(SOURCE), 0, true, true);
+    
+    // sanity check on compiled source
+    if (!closure) {
+        // an error occurred while compiling source code and it has already been reported by the report_error callback
+        gravity_compiler_free(compiler);
+        return 1;
+    }
+
+	gravity_vm_runmain(vm, closure);
+
+	return 0;
+}
+
+#else
 #include "prefix.h"
 
 #include "objects/TestObject.h"
@@ -150,3 +216,4 @@ int main()
 
 	return 0;
 }
+#endif

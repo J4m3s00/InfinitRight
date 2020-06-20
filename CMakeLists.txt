@@ -9,10 +9,13 @@ elseif(APPLE)
 add_compile_definitions(IR_MAC)
 endif()
 
-include_directories(infinit_right/src/)
+include_directories(infinit_right/src/
+                    ../gravity/src/cli
+                    ../gravity/src/compiler
+                    ../gravity/src/optionals
+                    ../gravity/src/runtime
+                    ../gravity/src/shared
+                    ../gravity/src/utils)
 
 add_subdirectory(infinit_right)
 add_subdirectory(infinit_right_sandbox)
-
-
-

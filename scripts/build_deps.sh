@@ -10,6 +10,7 @@ then
         cd gravity
     else
         cd gravity
+        git pull
     fi
     mkdir build
 fi

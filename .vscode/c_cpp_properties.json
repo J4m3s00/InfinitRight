@@ -4,7 +4,12 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/ir_electron_test/**",
+                "${workspaceFolder}/../gravity/src/cli/**",
+                "${workspaceFolder}/../gravity/src/compiler/**",
+                "${workspaceFolder}/../gravity/src/optionals/**",
+                "${workspaceFolder}/../gravity/src/runtime/**",
+                "${workspaceFolder}/../gravity/src/shared/**",
+                "${workspaceFolder}/../gravity/src/utils/**",
                 "/usr/local/include/node/**"
             ],
             "defines": [],
