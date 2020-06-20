@@ -4,13 +4,8 @@ namespace IR {
 
 	InfinitRightObject::InfinitRightObject(const IRUUID& uuid)
 		: fProperties(),
-		IR_INIT_PROPERTY(Name),
-		IR_INIT_PROPERTY_A1(Uuid, uuid),
-		IR_INIT_PROPERTY(Parent),
-		IR_INIT_PROPERTY(Next),
-		IR_INIT_PROPERTY(Prev),
-		IR_INIT_PROPERTY(FirstChild),
-		IR_INIT_PROPERTY(InternContainer)
+		fUuid(uuid),
+		IR_INIT_PROPERTY(Name)
 	{	
 	}
 
@@ -41,83 +36,7 @@ namespace IR {
 		}
 		OnSetJs(json);
 
-		json["ObjectType"] = fObjectType;
-	}
-
-
-
-	void InfinitRightObject::AddChild(InfinitRightObject* object)
-	{
-		Delete(object);
-		InfinitRightObject* currentChild = GetFirstChild();
-		if (!currentChild)
-		{
-			SetFirstChild(object);
-		}
-		else
-		{
-			while (currentChild->GetNext())
-			{
-				currentChild = currentChild->GetNext();
-			}
-			currentChild->SetNext(object);
-			object->SetPrev(currentChild);
-			object->SetParent(currentChild->GetParent());
-		}
-	}
-
-	void InfinitRightObject::SetNewNext(InfinitRightObject* next)
-	{
-		Delete(next);
-		InfinitRightObject* currentNext = GetNext();
-
-		SetNext(next);
-		if (currentNext)
-		{
-			currentNext->SetPrev(next);
-		}
-
-		if (next)
-		{
-			next->SetNext(currentNext);
-			next->SetPrev(this);
-			next->SetParent(GetParent());
-		}
-	}
-
-	void InfinitRightObject::SetNewPrev(InfinitRightObject* prev)
-	{
-		Delete(prev);
-		InfinitRightObject* currentPrev = GetPrev();
-
-		SetPrev(prev);
-		if (currentPrev)
-		{
-			currentPrev->SetNext(prev);
-		}
-
-		if (prev)
-		{
-			prev->SetPrev(currentPrev);
-			prev->SetNext(this);
-			prev->SetParent(GetParent());
-		}
-	}
-
-
-
-
-	//STATIC HELPER FN
-	void InfinitRightObject::Delete(InfinitRightObject* obj)
-	{
-		if (!obj) { return;  }
-		InfinitRightObject* prev = obj->GetPrev();
-		InfinitRightObject* next = obj->GetNext();
-		InfinitRightObject* parent = obj->GetParent();
-
-		if (!prev && parent && parent->GetFirstChild() == obj) { parent->SetFirstChild(next); }
-
-		if (next) { next->SetPrev(prev); }
-		if (prev) { prev->SetNext(next); }
+		json["UUID"] = JS_CON::ConvertValue(fUuid);
+		json["ObjectType"] = JS_CON::ConvertValue(fObjectType);
 	}
 }

@@ -13,13 +13,7 @@ namespace IR {
 		IRVector<InfinitRightProperty*>			fProperties;
 
 		IR_DEFINE_PROPERTY(Name, IRString);
-		IR_DEFINE_PROPERTY(Uuid, IRUUID);
-		IR_DEFINE_OBJ_PROPERTY(Parent);
-		IR_DEFINE_OBJ_PROPERTY(Next);
-		IR_DEFINE_OBJ_PROPERTY(Prev);
-		IR_DEFINE_OBJ_PROPERTY(FirstChild);
-
-		IR_DEFINE_OBJ_PROPERTY(InternContainer);
+		IRUUID fUuid;
 	protected:
 		IRString fObjectType;
 	public:
@@ -31,9 +25,7 @@ namespace IR {
 
 		void PushProperty(InfinitRightProperty* prop);
 
-		void AddChild(InfinitRightObject* object);
-		void SetNewNext(InfinitRightObject* next);
-		void SetNewPrev(InfinitRightObject* prev);
+		const IRUUID& GetUuid() const { return fUuid; }
 
 	private:
 		static void Delete(InfinitRightObject* obj); //This disconnects the object from the hierarchy

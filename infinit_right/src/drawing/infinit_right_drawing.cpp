@@ -23,11 +23,6 @@ namespace IR {
 		InfinitRightObject* newObject = InfinitRightApp::new_object(objectType, uuid);
 		fObjects[uuid] = newObject;
 
-		if (parent)
-		{
-			parent->AddChild(newObject);
-		}
-
 		IRJson objectJson = IRJson::object();
 		newObject->SetJs(objectJson);
 		if (currentUndoAction)
