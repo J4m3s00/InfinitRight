@@ -4,7 +4,7 @@ export const CHANGE_TYPE_Create = "create";
 export const CHANGE_TYPE_Delete = "delete";
 
 
-export const OBJECT_TYPE_DrawingObject = 0;
+export const OBJECT_TYPE_DrawingObject = 1;
 
 
 let RegisteredCallbacks = {
