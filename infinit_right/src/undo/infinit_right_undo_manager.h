@@ -4,23 +4,23 @@ namespace IR {
 
 	class InfinitRightUndoManager
 	{
-		friend class InfinitRightUndoAction;
 	public:
 		InfinitRightUndoManager();
 		~InfinitRightUndoManager();
 		
 		InfinitRightUndoAction* GetActiveAction();
+		void 					StartUndo(InfinitRightUndoAction* action);
+		void 					EndUndo(InfinitRightUndoAction* undoAction);
 
 
 		void							DoUndo();
 		void							DoRedo();
 	private:
-		void SetActiveAction(InfinitRightUndoAction* action);
 
 	private:
-		IRVector<InfinitRightUndoAction*>	fPast;
-		IRVector<InfinitRightUndoAction*>	fFuture;
-		InfinitRightUndoAction*				fActiveAction;
+		IRVector<InfinitRightUndoActionStorage*>	fPast;
+		IRVector<InfinitRightUndoActionStorage*>	fFuture;
+		InfinitRightUndoAction*						fActiveAction;
 	};
 
 }

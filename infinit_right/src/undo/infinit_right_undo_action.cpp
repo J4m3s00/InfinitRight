@@ -2,10 +2,10 @@
 
 namespace IR {
 
-	InfinitRightUndoAction::InfinitRightUndoAction(const IRString& name)
-		: fName(name)
+	InfinitRightUndoAction::InfinitRightUndoAction(const IRString& name, bool isUndoAction)
+		: fName(name), fIsUndoAction(isUndoAction)
 	{
-		InfinitRightApp::gApp().GetUndoManager().SetActiveAction(this);
+		InfinitRightApp::gApp().GetUndoManager().StartUndo(this);
 	}
 
 	InfinitRightUndoAction::~InfinitRightUndoAction()
@@ -20,7 +20,24 @@ namespace IR {
 		{
 			undoValue->WriteCallbackJson(callbackJson);
 		}
+		InfinitRightApp::gApp().GetUndoManager().EndUndo(this);
 		InfinitRightApp::gApp().StartChangeCallback(callbackJson);
+	}
+
+
+	const IRVector<InfinitRightUndoValue*>& InfinitRightUndoAction::GetUndoValueList() const
+	{
+		return fValues;
+	}
+
+	const IRString& InfinitRightUndoAction::GetName() const
+	{
+		return fName;
+	}
+
+	bool InfinitRightUndoAction::IsUndoAction() const
+	{
+		return fIsUndoAction;
 	}
 
 	void InfinitRightUndoAction::AddObjectChangeValue(InfinitRightObject* object, const IRJson& oldValue, const IRJson& newValue)
@@ -41,4 +58,26 @@ namespace IR {
 		fValues.push_back(new InfinitRightUndoValueDelete(object->GetUuid(), js_obj, object->GetObjectId()));
 	}
 
+
+	InfinitRightUndoActionStorage::InfinitRightUndoActionStorage(InfinitRightUndoAction* action)
+	{
+		for (InfinitRightUndoValue* undoValue : action->GetUndoValueList())
+		{
+			fValues.push_back(undoValue);
+		}
+	}
+
+	InfinitRightUndoActionStorage::~InfinitRightUndoActionStorage()
+	{
+		for (InfinitRightUndoValue* undoValue : fValues)
+		{
+			delete undoValue;
+		}
+		fValues.clear();
+	}
+
+	const IRVector<InfinitRightUndoValue*> InfinitRightUndoActionStorage::GetUndoValues()
+	{
+		return fValues;
+	}
 }

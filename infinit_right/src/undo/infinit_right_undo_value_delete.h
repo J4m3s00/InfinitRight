@@ -6,12 +6,11 @@ namespace IR {
 	{
 	public:
 		InfinitRightUndoValueDelete(const IRUUID& objectUuid, const IRJson& jsObject, const IRObjectId& objectId);
-		~InfinitRightUndoValueDelete();
+		virtual ~InfinitRightUndoValueDelete();
 	private:
 		IRJson		fJSObject;
 	public:
 		virtual void Undo();
-		virtual void Redo();
 		
 		virtual void WriteCallbackJson(IRJson& json);
 	};

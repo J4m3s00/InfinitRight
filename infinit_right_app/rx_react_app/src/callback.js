@@ -23,7 +23,6 @@ export function RegisterCallbackFn(changeType, objectId, cbfn)
 
 export function RunCallback(object)
 {
-    console.log("Run callback: ", RegisteredCallbacks);
     if (object[CHANGE_TYPE_Create])
     {
         Object.entries(object[CHANGE_TYPE_Create]).forEach(([key, value]) => {

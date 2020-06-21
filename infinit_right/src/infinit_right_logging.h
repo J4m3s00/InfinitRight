@@ -10,7 +10,7 @@ namespace IR {
 			ERROR,
 			INFO,
 			WARN,
-			DEBUG,
+			DB,
 			UNDO,
 			ASSERT
 		};
@@ -32,7 +32,7 @@ namespace IR {
 			case IR::Logging::WARN:
 				return "[WARN]" + std::to_string(duration.count()) + "[";
 				break;
-			case IR::Logging::DEBUG:
+			case IR::Logging::DB:
 				return "[DEBUG]" + std::to_string(duration.count()) + "[";
 				break;
 			case IR::Logging::UNDO:
@@ -61,7 +61,7 @@ namespace IR {
 
 
 #define IR_ERROR(x) ::IR::Logging::Log(::IR::Logging::ELogType::ERROR, (x), __LINE__, __FILE__)
-#define IR_DEBUG(x) ::IR::Logging::Log(::IR::Logging::ELogType::DEBUG, (x), __LINE__, __FILE__)
+#define IR_DB(x) ::IR::Logging::Log(::IR::Logging::ELogType::DB, (x), __LINE__, __FILE__)
 #define IR_UNDO(x) ::IR::Logging::Log(::IR::Logging::ELogType::UNDO, (x), __LINE__, __FILE__)
 #define IR_WARN(x) ::IR::Logging::Log(::IR::Logging::ELogType::WARN, (x), __LINE__, __FILE__)
 #define IR_INFO(x) ::IR::Logging::Log(::IR::Logging::ELogType::INFO, (x), __LINE__, __FILE__)

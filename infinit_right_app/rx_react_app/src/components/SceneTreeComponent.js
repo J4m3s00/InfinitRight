@@ -1,6 +1,6 @@
 import React from "react"
 import { Segment } from "semantic-ui-react";
-import { RegisterCallbackFn, CHANGE_TYPE_Create, OBJECT_TYPE_DrawingObject } from "../callback";
+import { RegisterCallbackFn, CHANGE_TYPE_Create, OBJECT_TYPE_DrawingObject, CHANGE_TYPE_Delete } from "../callback";
 import InfinitCore from "../server_connection";
 
 class SceneTreeComponent extends React.Component
@@ -17,6 +17,9 @@ class SceneTreeComponent extends React.Component
     componentDidMount()
     {
         RegisterCallbackFn(CHANGE_TYPE_Create, OBJECT_TYPE_DrawingObject, () => {
+            this.rebuildSceneTree();
+        })
+        RegisterCallbackFn(CHANGE_TYPE_Delete, OBJECT_TYPE_DrawingObject, () => {
             this.rebuildSceneTree();
         })
     }

@@ -17,25 +17,36 @@ namespace IR {
 		return fActiveAction;
 	}
 
-	void InfinitRightUndoManager::SetActiveAction(InfinitRightUndoAction* action)
+	void InfinitRightUndoManager::StartUndo(InfinitRightUndoAction* action)
 	{
 		fActiveAction = action;
-		IR_INFO("Start Undo: " + action->fName);
+		IR_INFO("Start Undo: " + action->GetName());
+	}
+
+	void InfinitRightUndoManager::EndUndo(InfinitRightUndoAction* action)
+	{
+		IR_INFO("End Undo " + action->GetName());
+		fActiveAction = nullptr;
+
+		if (action->GetUndoValueList().empty()) { return; }
+
+		if (action->IsUndoAction()) { IR_INFO("Add to future " + action->GetName()); fFuture.push_back(new InfinitRightUndoActionStorage(action));}
+		else { IR_INFO("Add to past " + action->GetName()); fPast.push_back(new InfinitRightUndoActionStorage(action));}
 	}
 
 	void InfinitRightUndoManager::DoUndo()
 	{
+		IR_INFO("DO UNDO: ");
 		if (fPast.size() > 0)
 		{
-			InfinitRightUndoAction* action_to_undo = fPast.back();
+			InfinitRightUndoActionStorage* action_to_undo = fPast.back();
 			//Do the undo
-			for (InfinitRightUndoValue* undoValue : action_to_undo->fValues)
+			for (InfinitRightUndoValue* undoValue : action_to_undo->GetUndoValues())
 			{
 				undoValue->Undo();
 			}
 			//Remove action from past and push to future
 			fPast.pop_back();
-			fFuture.push_back(action_to_undo);
 		}
 	}
 
@@ -43,16 +54,17 @@ namespace IR {
 	{
 		if (fFuture.size() > 0)
 		{
-			InfinitRightUndoAction* action_to_undo = fFuture.back();
+			InfinitRightUndoActionStorage* action_to_undo = fFuture.back();
+			const IRVector<InfinitRightUndoValue*>& valueList = action_to_undo->GetUndoValues();
 			//Do the undo
-			for (size_t i = action_to_undo->fValues.size() - 1; i >= 0; i--)
+			for (i32 i = (i32)valueList.size() - 1; i >= 0; i--)
 			{
-				InfinitRightUndoValue* undoValue = action_to_undo->fValues[i];
-				undoValue->Redo();
+				InfinitRightUndoValue* undoValue = valueList[i];
+				undoValue->Undo();
 			}
 			//Remove action from past and push to future
-			fPast.push_back(action_to_undo);
-			fFuture.pop_back();
+
+        fFuture.pop_back();
 		}
 	}
 

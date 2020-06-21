@@ -18,15 +18,6 @@ namespace IR {
 		InfinitRightApp::gApp().GetActiveDrawing()->DeleteObject(fObjectUuid);
 	}
 
-	void InfinitRightUndoValueCreate::Redo()
-	{
-		u32 objectType;
-		if (JS_CON::GetParamUintSafe("ObjectType", fJSObject, objectType))
-		{
-			InfinitRightApp::gApp().GetActiveDrawing()->CreateNewObject(objectType)->FromJs(fJSObject);
-		}
-	}
-
 	void InfinitRightUndoValueCreate::WriteCallbackJson(IRJson& json)
 	{
 		InfinitRightUndoValue::WriteCallbackJson(json);

@@ -44,6 +44,21 @@ IR_MODULE_FN(IR_CreateNewObject)
 	info.SetReturnValue(result);
 }
 
+IR_MODULE_FN(IR_DoUndo)
+{
+  InfinitRightUndoAction undoAction("IR_DoUndo", true);
+
+  InfinitRightApp::gApp().GetUndoManager().DoUndo();
+}
+
+
+IR_MODULE_FN(IR_DoRedo)
+{
+  InfinitRightUndoAction undoAction("IR_DoRedo");
+
+  InfinitRightApp::gApp().GetUndoManager().DoRedo();
+}
+
 IR_EXPORT 
 {
   IR_REGISTER_OBJECT(InfinitRightDrawingObject);
@@ -51,6 +66,8 @@ IR_EXPORT
 
   IR_REGISTER_METHOD(IR_CreateNewObject);
   IR_REGISTER_METHOD(IR_GetSceneTree);
+  IR_REGISTER_METHOD(IR_DoUndo);
+  IR_REGISTER_METHOD(IR_DoRedo);
 }
 
 
@@ -63,7 +80,6 @@ struct GlobalData {
 
 
 void CallCoreFn(const v8::FunctionCallbackInfo<v8::Value>& args) {
-    std::cout << "Call core" << std::endl;
     if (args[0]->IsObject())
     {
         IRJson stateObject = IR::JS_CON::GetJsonFromV8(args[0].As<v8::Object>());

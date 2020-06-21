@@ -14,16 +14,6 @@ namespace IR {
 
 	}
 
-	void InfinitRightUndoValueChange::Redo()
-	{
-		InfinitRightObject* obj = GetObject();
-		IR_ASSERT(obj, "The undo value \"" + fNewValue.dump() + "\" has not found its object!");
-		if (obj)
-		{
-			obj->FromJs(fNewValue);
-		}
-	}
-
 	void InfinitRightUndoValueChange::Undo()
 	{
 		InfinitRightObject* obj = GetObject();

@@ -22,12 +22,6 @@ namespace IR {
 		}
 	}
 
-	void InfinitRightUndoValueDelete::Redo()
-	{
-		InfinitRightApp::gApp().GetActiveDrawing()->DeleteObject(fObjectUuid);
-	}
-
-
 	void InfinitRightUndoValueDelete::WriteCallbackJson(IRJson& json)
 	{
 		InfinitRightUndoValue::WriteCallbackJson(json);
