@@ -15,7 +15,7 @@ namespace IR {
 		IR_DEFINE_PROPERTY(Name, IRString);
 		IRUUID fUuid;
 	protected:
-		u32 fObjectType;
+		IRObjectId fObjectType;
 	public:
 		void FromJs(const IRJson& json);
 		void SetJs(IRJson& json) const;
@@ -26,6 +26,7 @@ namespace IR {
 		void PushProperty(InfinitRightProperty* prop);
 
 		const IRUUID& GetUuid() const { return fUuid; }
+		const IRObjectId& GetObjectId() const { return fObjectType; }
 
 	private:
 		static void Delete(InfinitRightObject* obj); //This disconnects the object from the hierarchy

@@ -15,7 +15,7 @@ namespace IR {
 
 		IRMap<IRString, TBridgeFn>		fBridgeFns;
 		IRVector<TObjectConstFn>		fObjectTypes;
-		IRMap<IRString, u32>			fObjectTypeNameIdMap;
+		IRMap<IRString, IRObjectId>		fObjectTypeNameIdMap;
 		TCallbackFn						fRegisteredCallbackFunction;
 
 		void*							fUserData;
@@ -35,7 +35,7 @@ namespace IR {
 		IRJson CallBridgeFunction(const IRString& name, const IRJson& input);
 
 		void RegisterObject(const IRString& name, const TObjectConstFn& fn);
-		u32 GetObjectIdFromTypeName(const IRString& objectTypeName);
+		IRObjectId GetObjectIdFromTypeName(const IRString& objectTypeName);
 
 		static InfinitRightObject* new_object(u32 type, const IRUUID& uuid = IRUUID().CreateNew());
 
@@ -51,7 +51,7 @@ namespace IR {
 		{
 			fUserData = (void*) data;
 		}
-		
+
 		//GETTER FOR THE INIT FN
 	public:
 

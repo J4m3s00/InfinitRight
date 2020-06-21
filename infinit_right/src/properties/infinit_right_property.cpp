@@ -7,7 +7,7 @@ namespace IR {
 		InfinitRightUndoAction* currentAction = InfinitRightApp::gApp().GetUndoManager().GetActiveAction();
 		if (currentAction && object)
 		{
-			currentAction->AddObjectChangeValue(object->GetUuid(), oldValue, newValue);
+			currentAction->AddObjectChangeValue(object, oldValue, newValue);
 		}
 	}
 

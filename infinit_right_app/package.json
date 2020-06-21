@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node-gyp build && node index.js",
+    "start": "node-gyp build && node-gyp configure -- -f xcode && node index.js",
     "install": "node-gyp rebuild"
   },
   "author": "James",

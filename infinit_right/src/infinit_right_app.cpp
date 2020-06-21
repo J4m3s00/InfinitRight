@@ -87,7 +87,7 @@ namespace IR {
 		}
 	}
 
-	u32 InfinitRightApp::GetObjectIdFromTypeName(const IRString& objectTypeName)
+	IRObjectId InfinitRightApp::GetObjectIdFromTypeName(const IRString& objectTypeName)
 	{
 		return fObjectTypeNameIdMap[objectTypeName];
 	}

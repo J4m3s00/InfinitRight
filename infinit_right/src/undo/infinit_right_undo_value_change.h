@@ -5,7 +5,7 @@ namespace IR {
 	class InfinitRightUndoValueChange : public InfinitRightUndoValue
 	{
 	public:
-		InfinitRightUndoValueChange(const IRUUID& objectUuid, const IRJson& oldValue, const IRJson& newValue);
+		InfinitRightUndoValueChange(const IRUUID& objectUuid, const IRJson& oldValue, const IRJson& newValue, const IRObjectId& objectId);
 		~InfinitRightUndoValueChange();
 	private:
 		IRJson		fOldValue;

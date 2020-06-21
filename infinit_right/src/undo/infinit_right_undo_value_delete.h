@@ -5,7 +5,7 @@ namespace IR {
 	class InfinitRightUndoValueDelete : public InfinitRightUndoValue 
 	{
 	public:
-		InfinitRightUndoValueDelete(const IRUUID& objectUuid, const IRJson& jsObject);
+		InfinitRightUndoValueDelete(const IRUUID& objectUuid, const IRJson& jsObject, const IRObjectId& objectId);
 		~InfinitRightUndoValueDelete();
 	private:
 		IRJson		fJSObject;

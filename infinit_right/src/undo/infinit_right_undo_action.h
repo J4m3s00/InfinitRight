@@ -12,9 +12,9 @@ namespace IR {
 		IRString							fName;
 		IRVector<InfinitRightUndoValue*>	fValues;
 	public:
-		void AddObjectChangeValue(const IRUUID& objectUuid, const IRJson& oldValue, const IRJson& newValue);
-		void AddObjectCreateValue(const IRUUID& objectUuid, const IRJson& object);
-		void AddObjectDeleteValue(const IRUUID& objectUuid, const IRJson& object);
+		void AddObjectChangeValue(InfinitRightObject* object, const IRJson& js_oldValue, const IRJson& newValue);
+		void AddObjectCreateValue(InfinitRightObject* object, const IRJson& js_object);
+		void AddObjectDeleteValue(InfinitRightObject* object, const IRJson& js_object);
 	};
 
 }

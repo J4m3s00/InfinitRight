@@ -58,6 +58,7 @@ typedef uint64_t		u64;
 typedef unsigned char	byte;
 typedef std::string		IRString;
 typedef std::map<IR::IRUUID, IR::InfinitRightObject*> TObjectMap;
+typedef u32 			IRObjectId;
 
 template <typename T>
 using IRVector = std::vector<T>;

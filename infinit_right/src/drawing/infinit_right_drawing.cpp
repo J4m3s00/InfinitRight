@@ -27,7 +27,7 @@ namespace IR {
 		newObject->SetJs(objectJson);
 		if (currentUndoAction)
 		{
-			currentUndoAction->AddObjectCreateValue(uuid, objectJson);
+			currentUndoAction->AddObjectCreateValue(newObject, objectJson);
 		}
 		return newObject;
 	}
@@ -42,10 +42,11 @@ namespace IR {
 			object->SetJs(objectJson);
 			if (undoAction)
 			{
-				undoAction->AddObjectDeleteValue(uuid, objectJson);
+				undoAction->AddObjectDeleteValue(object, objectJson);
 			}
 			fObjects.erase(uuid);
 		}
+		delete object;
 	}
 
 	InfinitRightObject* InfinitRightDrawing::GetObjectByUuid(const IRUUID& uuid)

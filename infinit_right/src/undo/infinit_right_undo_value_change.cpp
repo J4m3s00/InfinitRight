@@ -2,8 +2,8 @@
 
 namespace IR {
 
-	InfinitRightUndoValueChange::InfinitRightUndoValueChange(const IRUUID& objectUuid, const IRJson& oldValue, const IRJson& newValue)
-		: InfinitRightUndoValue(objectUuid)
+	InfinitRightUndoValueChange::InfinitRightUndoValueChange(const IRUUID& objectUuid, const IRJson& oldValue, const IRJson& newValue, const IRObjectId& objectId)
+		: InfinitRightUndoValue(objectUuid, objectId)
 	{
 		fOldValue = oldValue;
 		fNewValue = newValue;
@@ -36,7 +36,10 @@ namespace IR {
 
 	void InfinitRightUndoValueChange::WriteCallbackJson(IRJson& json)
 	{
-		if (!JS_CON::HasObjectProperty("Changes", json)) { json["Changes"] = IRJson::object(); }
-		if (!JS_CON::HasObjectProperty());
+		InfinitRightUndoValue::WriteCallbackJson(json);
+		json["ChangeType"] = JS_CON::ConvertValue("change");
+		json["ObjectType"] = JS_CON::ConvertValue(fObjectId);
+		json["UUID"] = JS_CON::ConvertValue(fObjectUuid);
+		json[""];
 	}
 }

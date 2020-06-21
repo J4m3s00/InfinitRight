@@ -5,7 +5,7 @@ namespace IR {
 	class InfinitRightUndoValueCreate : public InfinitRightUndoValue
 	{
 	public:
-		InfinitRightUndoValueCreate(const IRUUID& objectUuid, const IRJson& object);
+		InfinitRightUndoValueCreate(const IRUUID& objectUuid, const IRJson& object, const IRObjectId& objectId);
 		~InfinitRightUndoValueCreate();
 	private:
 		IRJson		fJSObject;

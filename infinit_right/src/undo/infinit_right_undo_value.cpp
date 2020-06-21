@@ -2,8 +2,8 @@
 
 namespace IR {
 
-	InfinitRightUndoValue::InfinitRightUndoValue(const IRUUID& uuid)
-		: fObjectUuid(uuid)
+	InfinitRightUndoValue::InfinitRightUndoValue(const IRUUID& uuid, const IRObjectId& objectId)
+		: fObjectUuid(uuid), fObjectId(objectId)
 	{
 
 	}

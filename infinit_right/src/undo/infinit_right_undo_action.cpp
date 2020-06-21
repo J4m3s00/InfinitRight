@@ -28,27 +28,27 @@ namespace IR {
 		callbackJson["Creations"] 	= IRJson::object();
 		for (InfinitRightUndoValue* undoValue : fValues)
 		{
-			
+			undoValue->WriteCallbackJson(callbackJson);
 		}
-		InfinitRightApp::gApp().StartChangeCallback("something-changed", {});
+		InfinitRightApp::gApp().StartChangeCallback("something-changed", callbackJson);
 	}
 
-	void InfinitRightUndoAction::AddObjectChangeValue(const IRUUID& objectUuid, const IRJson& oldValue, const IRJson& newValue)
+	void InfinitRightUndoAction::AddObjectChangeValue(InfinitRightObject* object, const IRJson& oldValue, const IRJson& newValue)
 	{
-		IR_INFO("Add object change value for object " + objectUuid.ToString() + "! OldValue: " + oldValue.dump() + "\nNewValue: " + newValue.dump());
-		fValues.push_back(new InfinitRightUndoValueChange(objectUuid, oldValue, newValue));
+		IR_INFO("Add object change value for object " + object->GetUuid().ToString() + "! OldValue: " + oldValue.dump() + "\nNewValue: " + newValue.dump());
+		fValues.push_back(new InfinitRightUndoValueChange(object->GetUuid(), oldValue, newValue, object->GetObjectId()));
 	}
 
-	void InfinitRightUndoAction::AddObjectCreateValue(const IRUUID& objectUuid, const IRJson& object)
+	void InfinitRightUndoAction::AddObjectCreateValue(InfinitRightObject* object, const IRJson& js_obj)
 	{
-		IR_INFO("Add objectcreate change for object " + objectUuid.ToString() + "! Object: " + object.dump());
-		fValues.push_back(new InfinitRightUndoValueCreate(objectUuid, object));
+		IR_INFO("Add objectcreate change for object " + object->GetUuid().ToString() + "! Object: " + js_obj.dump());
+		fValues.push_back(new InfinitRightUndoValueCreate(object->GetUuid(), js_obj, object->GetObjectId()));
 	}
 
-	void InfinitRightUndoAction::AddObjectDeleteValue(const IRUUID& objectUuid, const IRJson& object)
+	void InfinitRightUndoAction::AddObjectDeleteValue(InfinitRightObject* object, const IRJson& js_obj)
 	{
-		IR_INFO("Add object delete change for object " + objectUuid.ToString() + "! Object: " + object.dump());
-		fValues.push_back(new InfinitRightUndoValueDelete(objectUuid, object));
+		IR_INFO("Add object delete change for object " + object->GetUuid().ToString() + "! Object: " + js_obj.dump());
+		fValues.push_back(new InfinitRightUndoValueDelete(object->GetUuid(), js_obj, object->GetObjectId()));
 	}
 
 }
