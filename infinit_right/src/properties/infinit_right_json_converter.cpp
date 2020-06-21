@@ -2,10 +2,17 @@
 
 namespace IR { namespace JS_CON {
 
+
+		bool HasObjectProperty(const IRString& paramName, const IRJson& js_object)
+		{
+			return js_object.find(paramName) != js_object.end();
+		}
+
 		bool HasObjectProperty(const char* paramName, const IRJson& js_object)
 		{
 			return js_object.find(paramName) != js_object.end();
 		}
+
 
 		i32 GetParamInt(const char* paramName, const IRJson& js_object)
 		{

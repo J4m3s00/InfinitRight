@@ -30,27 +30,12 @@ namespace IR {
 	void InfinitRightUndoValueCreate::WriteCallbackJson(IRJson& json)
 	{
 		InfinitRightUndoValue::WriteCallbackJson(json);
-		if (!JS_CON::HasObjectProperty("Creations", json)) { json["Changes"] = IRJson::object();}
-
-
+		
 		IRString objectIdString = std::to_string(fObjectId);
 
-		if (json["Creations"].find(objectIdString) == json["Creations"].end())
-		{
-			json["Creations"][objectIdString] = IRJson::object();
-		}
-
-		IRJson& creationsJson = json["Creations"][objectIdString];
-
-		if (creationsJson.find("Value") == creationsJson.end()) 
-		{
-			creationsJson["Value"] = IRJson::object();
-		}
-
-		for (auto& item : fJSObject.items())
-		{
-			creationsJson["Value"][item.key()] = item.value();
-		}
+		IRJson& createJson = json[IR_CHANGE_TYPE_Create];
+		if (!JS_CON::HasObjectProperty(objectIdString, createJson)) { createJson[objectIdString] = IRJson::array(); }
+		createJson[objectIdString].push_back(JS_CON::ConvertValue(fObjectUuid));
 	}
 
 }

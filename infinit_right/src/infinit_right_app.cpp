@@ -79,11 +79,11 @@ namespace IR {
 		fRegisteredCallbackFunction = fn; 
 	}
 
-	void InfinitRightApp::StartChangeCallback(const IRString& commandString, const IRJson& args)
+	void InfinitRightApp::StartChangeCallback(const IRJson& args)
 	{
 		if (fRegisteredCallbackFunction)
 		{
-			fRegisteredCallbackFunction(commandString, args);
+			fRegisteredCallbackFunction(args);
 		}
 	}
 
@@ -94,6 +94,7 @@ namespace IR {
 
 	InfinitRightObject* InfinitRightApp::new_object(u32 type, const IRUUID& uuid)
 	{
+        IR_ASSERT(type < gApp().fObjectTypes.size(), "Cant find create function for object type");
 		const TObjectConstFn& fn = gApp().fObjectTypes[type];
 		if (fn)
 		{

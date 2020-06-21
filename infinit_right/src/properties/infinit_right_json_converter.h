@@ -4,8 +4,8 @@ namespace IR {
 
 	namespace JS_CON {
 
+		bool HasObjectProperty(const IRString& paramName, const IRJson& js_object);
 		bool HasObjectProperty(const char* paramName, const IRJson& js_object);
-
 		i32 GetParamInt(const char* paramName, const IRJson& js_object);
 		bool GetParamIntSafe(const char* paramName, const IRJson& js_object, i32& outValue);
 		u32 GetParamUint(const char* paramName, const IRJson& js_object);

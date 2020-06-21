@@ -12,8 +12,8 @@ namespace IR {
 
 	InfinitRightObject::InfinitRightObject(const IRUUID& uuid)
 		: fProperties(),
-		fUuid(uuid),
-		IR_INIT_PROPERTY(Name)
+		IR_INIT_PROPERTY(Name),
+		fUuid(uuid)
 	{	
 	}
 

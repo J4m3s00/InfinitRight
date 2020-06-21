@@ -57,8 +57,15 @@ typedef uint32_t		u32;
 typedef uint64_t		u64;
 typedef unsigned char	byte;
 typedef std::string		IRString;
+
+
+///////// OBJECT TYPES
 typedef std::map<IR::IRUUID, IR::InfinitRightObject*> TObjectMap;
+typedef std::vector<IR::InfinitRightObject*>		  TObjectList;
 typedef u32 			IRObjectId;
+
+
+////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
 using IRVector = std::vector<T>;
@@ -67,7 +74,7 @@ template <typename T1, typename T2>
 using IRMap = std::map<T1, T2>;
 
 typedef std::function< IR::InfinitRightObject * (const IR::IRUUID& uuid) >	TObjectConstFn;
-typedef std::function< void (const IRString& command, const IRJson& args) > TCallbackFn;
+typedef std::function< void (const IRJson& args) > TCallbackFn;
 
 
 /////////////////////////////////////////BRIDGING
@@ -126,6 +133,10 @@ void Set##name(IR::InfinitRightObject* value) { f##name.SetValue(value); }
 
 #define IR_INIT_PROPERTY(name) f##name(#name, this)
 #define IR_INIT_PROPERTY_A1(name, initValue) f##name(#name, this, initValue)
+
+#define IR_CHANGE_TYPE_Change "change"
+#define IR_CHANGE_TYPE_Create "create"
+#define IR_CHANGE_TYPE_Delete "delete"
 
 
 /*const type& get_##name() const { return f_##name.GetValue(); }\

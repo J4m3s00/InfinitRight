@@ -4,6 +4,25 @@
 
 using namespace IR;
 
+IR_MODULE_FN(IR_GetSceneTree)
+{
+  InfinitRightUndoAction undoAction("IR_GetSceneTree");
+
+  IRJson resultList = IRJson::array();
+    InfinitRightDrawing* activeDrawing =InfinitRightApp::gApp().GetActiveDrawing();
+  TObjectList objects = activeDrawing->GetObjects();
+  for (InfinitRightObject* object : objects)
+  {
+    IRJson objectJs = IRJson::object();
+    object->SetJs(objectJs);
+    resultList.push_back(objectJs);
+  }
+
+  IRJson result = IRJson::object();
+  result["Objects"] = resultList;
+  info.SetReturnValue(result);
+}
+
 IR_MODULE_FN(IR_CreateNewObject)
 {
 	InfinitRightUndoAction undoAction("IR_CreateNewObject");
@@ -31,6 +50,7 @@ IR_EXPORT
 
 
   IR_REGISTER_METHOD(IR_CreateNewObject);
+  IR_REGISTER_METHOD(IR_GetSceneTree);
 }
 
 
@@ -72,14 +92,10 @@ void Initialize(v8::Local<v8::Object> exports) {
   IR::InfinitRightApp::gApp().SetUserData(new GlobalData());
 
 
-  IR::InfinitRightApp::gApp().RegisterChangeCallbackFunction([](const IRString& command, const IRJson& args) {
+  IR::InfinitRightApp::gApp().RegisterChangeCallbackFunction([](const IRJson& args) {
     GlobalData* data = IR::InfinitRightApp::gApp().UserData<GlobalData>();
     if (data->connected){
-      IRJson input = IRJson::object();
-      input["Command"] = command;
-      input["Args"] = args;
-
-      v8::Local<v8::Value> argv[] = {JS_CON::GetV8FromJson(input)};
+      v8::Local<v8::Value> argv[] = {JS_CON::GetV8FromJson(args)};
       Nan::Call(data->ChangeCallback, 1, argv);
     }
   });

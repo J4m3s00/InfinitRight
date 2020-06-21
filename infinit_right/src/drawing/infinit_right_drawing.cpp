@@ -3,7 +3,8 @@
 namespace IR {
 
 	InfinitRightDrawing::InfinitRightDrawing(const IRString& name)
-		: InfinitRightObject()
+		: InfinitRightObject(),
+			fObjects()
 	{
 		SetName(name);
 	}
@@ -45,8 +46,8 @@ namespace IR {
 				undoAction->AddObjectDeleteValue(object, objectJson);
 			}
 			fObjects.erase(uuid);
+			delete object;
 		}
-		delete object;
 	}
 
 	InfinitRightObject* InfinitRightDrawing::GetObjectByUuid(const IRUUID& uuid)
@@ -54,5 +55,16 @@ namespace IR {
 		return fObjects[uuid];
 	}
 
-
+	TObjectList InfinitRightDrawing::GetObjects() const
+	{
+		TObjectList result;
+		for (const auto& el : fObjects)
+		{
+			if (el.second)
+			{
+				result.push_back(el.second);
+			}
+		}
+		return result;
+	}
 }

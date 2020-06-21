@@ -29,7 +29,7 @@ namespace IR {
 		InfinitRightUndoManager&		GetUndoManager();
 
 		void RegisterChangeCallbackFunction(const TCallbackFn& fn);
-		void StartChangeCallback(const IRString& command, const IRJson& args);
+		void StartChangeCallback(const IRJson& args);
 
 		void RegisterBridgeFunction(const IRString& name, const TBridgeFn& fn);
 		IRJson CallBridgeFunction(const IRString& name, const IRJson& input);

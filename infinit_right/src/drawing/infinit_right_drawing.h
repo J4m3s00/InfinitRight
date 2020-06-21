@@ -14,6 +14,7 @@ namespace IR {
 		void						DeleteObject(const IRUUID& uuid);
 
 		InfinitRightObject*			GetObjectByUuid(const IRUUID& uuid);
+		TObjectList					GetObjects() const;
 	};
 
 }

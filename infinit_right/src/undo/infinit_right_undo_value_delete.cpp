@@ -31,25 +31,11 @@ namespace IR {
 	void InfinitRightUndoValueDelete::WriteCallbackJson(IRJson& json)
 	{
 		InfinitRightUndoValue::WriteCallbackJson(json);
-		if (!JS_CON::HasObjectProperty("Deletions", json)) { json["Changes"] = IRJson::object();}
-
+		
 		IRString objectIdString = std::to_string(fObjectId);
-
-		if (json["Deletions"].find(objectIdString) == json["Deletions"].end())
-		{
-			json["Deletions"][objectIdString] = IRJson::object();
-		}
-
-		IRJson& deletionsJson = json["Deletions"][objectIdString];
-
-		if (deletionsJson.find("Value") == deletionsJson.end()) 
-		{
-			deletionsJson["Value"] = IRJson::object();
-		}
-
-		for (auto& item : fJSObject.items())
-		{
-			deletionsJson["Value"][item.key()] = item.value();
-		}
+		
+		IRJson& deleteJson = json[IR_CHANGE_TYPE_Delete];
+		if (!JS_CON::HasObjectProperty(objectIdString, deleteJson)) { deleteJson[objectIdString] = IRJson::array(); }
+		deleteJson[objectIdString].push_back(JS_CON::ConvertValue(fObjectUuid));
 	}
 }
