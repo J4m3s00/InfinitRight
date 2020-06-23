@@ -32,6 +32,11 @@ namespace IR {
 		
 		IRJson& changeJson = json[IR_CHANGE_TYPE_Change];
 		if (!JS_CON::HasObjectProperty(objectIdString, changeJson)) { changeJson[objectIdString] = IRJson::array(); }
-		changeJson[objectIdString].push_back(JS_CON::ConvertValue(fObjectUuid));
+
+		IRJson writeJson = IRJson::object();
+		writeJson["UUID"] = JS_CON::ConvertValue(fObjectUuid);
+		writeJson["NewValue"] = fNewValue;
+
+		changeJson[objectIdString].push_back(writeJson);
 	}
 }

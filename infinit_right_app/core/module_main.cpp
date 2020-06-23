@@ -45,6 +45,28 @@ IR_MODULE_FN(IR_CreateNewObject)
 	info.SetReturnValue(result);
 }
 
+IR_MODULE_FN(IR_SetObject)
+{
+  InfinitRightUndoAction undoAction("IR_SetObject");
+
+  const IRJson& stateObject = info.input;
+
+  IRUUID objectUuid;
+  if (JS_CON::GetParamUUIDSafe("UUID", stateObject, objectUuid))
+  {
+    IRObjectId objectId = 0;
+    JS_CON::GetParamUintSafe("ObjectType", stateObject, objectId);
+    
+    //TODO: Get the object by the object id. I need a map in the drawing for this though
+    InfinitRightObject* object = InfinitRightApp::gApp().GetActiveDrawing()->GetObjectByUuid(objectUuid/*, objectId*/);
+    if (object)
+    {
+      object->FromJs(stateObject);
+    }
+  }
+
+}
+
 IR_MODULE_FN(IR_DoUndo)
 {
   InfinitRightUndoAction undoAction("IR_DoUndo", true);
@@ -67,6 +89,7 @@ IR_EXPORT
 
   IR_REGISTER_METHOD(IR_CreateNewObject);
   IR_REGISTER_METHOD(IR_GetSceneTree);
+  IR_REGISTER_METHOD(IR_SetObject);
   IR_REGISTER_METHOD(IR_DoUndo);
   IR_REGISTER_METHOD(IR_DoRedo);
 }

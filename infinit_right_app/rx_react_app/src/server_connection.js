@@ -30,6 +30,12 @@ InfinitCore.IR_GetSceneTree = async function (object)
     return result;
 }
 
+InfinitCore.IR_SetObject = async function (object)
+{
+    let result = await ServerConnection.call("IR_SetObject", object);
+    return result;
+}
+
 InfinitCore.IR_DoUndo = async function (object)
 {
     let result = await ServerConnection.call("IR_DoUndo", object);
