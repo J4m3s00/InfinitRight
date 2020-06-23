@@ -13,6 +13,29 @@ namespace IR { namespace JS_CON {
 			return js_object.find(paramName) != js_object.end();
 		}
 
+		bool GetParamBool(const char* paramName, const IRJson& js_object)
+		{
+			bool result = false;
+			const IRJson& jsParam = js_object[paramName];
+			if (!jsParam.is_number_integer())
+			{
+				IR_WARN("Javascript value is not a Bool!"); IR_WARN("Object: " + jsParam.dump()); 
+				return result;
+			}
+			result = jsParam.get<bool>();
+			return result;
+		}
+
+		bool GetParamBoolSafe(const char* paramName, const IRJson& js_object, bool& outValue)
+		{
+			if (!HasObjectProperty(paramName, js_object))
+			{
+				outValue = false;
+				return false;
+			}
+			outValue = GetParamBool(paramName, js_object);
+			return true;
+		}
 
 		i32 GetParamInt(const char* paramName, const IRJson& js_object)
 		{
@@ -244,6 +267,16 @@ namespace IR { namespace JS_CON {
 			return true;
 		}
 
+		IRJson ConvertValue(bool value)
+		{
+			return value;
+		}
+
+		IRJson ConvertValue(bool* value)
+		{
+			return *value;
+		}
+
 		IRJson ConvertValue(int value)
 		{
 			return value;
@@ -401,6 +434,18 @@ namespace IR { namespace JS_CON {
 		IRJson ConvertValue(IRUUID* value)
 		{
 			return value->ToString();
+		}
+
+		void ConvertObject(const IRJson& ref, bool& value)
+		{
+			IR_ASSERT(ref.is_boolean(), "IRJson value " + ref.dump() + " is not a boolean");
+			if (ref.is_boolean()) { value = ref.get<bool>(); }
+		}
+
+		void ConvertObject(const IRJson& ref, bool* value)
+		{
+			IR_ASSERT(ref.is_boolean(), "IRJson value " + ref.dump() + " is not a boolean");
+			if (ref.is_boolean()) { *value = ref.get<bool>(); }
 		}
 
 		void ConvertObject(const IRJson& ref, int& value)

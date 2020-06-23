@@ -1,5 +1,5 @@
 import React from "react"
-import { Segment } from "semantic-ui-react";
+import { Segment, List, Card } from "semantic-ui-react";
 import { RegisterCallbackFn, CHANGE_TYPE_Create, OBJECT_TYPE_DrawingObject, CHANGE_TYPE_Delete } from "../callback";
 import InfinitCore from "../server_connection";
 
@@ -22,13 +22,15 @@ class SceneTreeComponent extends React.Component
         RegisterCallbackFn(CHANGE_TYPE_Delete, OBJECT_TYPE_DrawingObject, () => {
             this.rebuildSceneTree();
         })
+
+        this.rebuildSceneTree();
     }
 
     render()
     {
         return <Segment>
             {this.state.objects.map(obj => {
-                return <div>{obj.Name}</div>
+                return <Card>{obj.Name}</Card>
             })}
         </Segment>
     }

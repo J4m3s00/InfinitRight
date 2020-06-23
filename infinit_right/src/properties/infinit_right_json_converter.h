@@ -6,6 +6,8 @@ namespace IR {
 
 		bool HasObjectProperty(const IRString& paramName, const IRJson& js_object);
 		bool HasObjectProperty(const char* paramName, const IRJson& js_object);
+		bool GetParamBool(const char* paramName, const IRJson& js_object);
+		bool GetParamBoolSafe(const char* paramName, const IRJson& js_object, bool& outValue);
 		i32 GetParamInt(const char* paramName, const IRJson& js_object);
 		bool GetParamIntSafe(const char* paramName, const IRJson& js_object, i32& outValue);
 		u32 GetParamUint(const char* paramName, const IRJson& js_object);
@@ -29,6 +31,8 @@ namespace IR {
 		IRString GetParamString(const char* paramName, const IRJson& js_object);
 		bool GetParamStringSafe(const char* paramName, const IRJson& js_object, IRString& outValue);
 
+		IRJson ConvertValue(bool value);
+		IRJson ConvertValue(bool* value);
 		IRJson ConvertValue(int value);
 		IRJson ConvertValue(int* value);
 		IRJson ConvertValue(u32 value);
@@ -53,6 +57,9 @@ namespace IR {
 		IRJson ConvertValue(IRUUID* value);
 
 
+
+		void ConvertObject(const IRJson& ref, bool& value);
+		void ConvertObject(const IRJson& ref, bool* value);
 		void ConvertObject(const IRJson& ref, int& value);
 		void ConvertObject(const IRJson& ref, int* value);
 		void ConvertObject(const IRJson& ref, u32& value);

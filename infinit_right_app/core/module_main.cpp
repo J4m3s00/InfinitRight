@@ -9,7 +9,8 @@ IR_MODULE_FN(IR_GetSceneTree)
   InfinitRightUndoAction undoAction("IR_GetSceneTree");
 
   IRJson resultList = IRJson::array();
-    InfinitRightDrawing* activeDrawing =InfinitRightApp::gApp().GetActiveDrawing();
+  InfinitRightDrawing* activeDrawing =InfinitRightApp::gApp().GetActiveDrawing();
+
   TObjectList objects = activeDrawing->GetObjects();
   for (InfinitRightObject* object : objects)
   {

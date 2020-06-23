@@ -16,6 +16,7 @@ namespace IR {
 		IRUUID fUuid;
 	protected:
 		IRObjectId fObjectType;
+		IRObjectId fSuperType;		//This is the type of the first inheritance after the InfnitRightObject, This is used for callbacks to group all objects together that are inhertited
 	public:
 		void FromJs(const IRJson& json);
 		void SetJs(IRJson& json) const;
@@ -26,7 +27,8 @@ namespace IR {
 		void PushProperty(InfinitRightProperty* prop);
 
 		const IRUUID& GetUuid() const { return fUuid; }
-		const IRObjectId& GetObjectId() const { return fObjectType; }
+		const IRObjectId& GetObjectTypeId() const { return fObjectType; }
+		const IRObjectId& GetObjectSuperId() const { return fSuperType; }	// This is used for the callbacks, to group different object types to the one at the top of the inheritance
 
 	private:
 		static void Delete(InfinitRightObject* obj); //This disconnects the object from the hierarchy

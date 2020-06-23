@@ -108,49 +108,47 @@ typedef std::function<void(IR_ModuleFunctionInfo &input)> TBridgeFn;
 #define IR_GET_OBJECT_TPYE(objClss) ::IR
 #define IR_MODULE_FN(fn) void fn(IR_ModuleFunctionInfo &info)
 
-#define IR_OBJECT_NEW(clss)                                                                                      \
-	class clss : public ::IR::InfinitRightObject                                                                 \
-	{                                                                                                            \
-	public:                                                                                                      \
-		static IRObjectId GetObjectId() { return ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss); } \
-		static clss *CreateNew(const ::IR::IRUUID &uuid = ::IR::IRUUID().CreateNew())                            \
-		{                                                                                                        \
-			clss *result = new clss(uuid);                                                                       \
-			result->fObjectType = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss);                  \
-			return result;                                                                                       \
+#define IR_OBJECT_NEW(clss)                                                                                              \
+	class clss : public ::IR::InfinitRightObject                                                                         \
+	{                                                                                                                    \
+	public:                                                                                                              \
+		static IRObjectId get_object_type_id() { return ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss); }  \
+		static IRObjectId get_object_super_id() { return ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss); } \
+		static clss *CreateNew(const ::IR::IRUUID &uuid = ::IR::IRUUID().CreateNew())                                    \
+		{                                                                                                                \
+			clss *result = new clss(uuid);                                                                               \
+			result->fObjectType = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss);                          \
+			result->fSuperType = result->fObjectType;                                                                    \
+			return result;                                                                                               \
 		}
 
 #define IR_END_OBJECT \
 	};
 
-#define IR_OBJECT_SUB(clss, spclss)                                                               \
-	class clss : public spclss                                                                    \
-	{                                                                                             \
-	public:                                                                                       \
-		static IRObjectId GetObjectId()                                                           \
-		{                                                                                         \
-			IRObjectId objectId = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#spclss); \
-			if (objectId == 0)                                                                    \
-			{                                                                                     \
-				objectId = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss);          \
-			}                                                                                     \
-			return objectId;                                                                      \
-		}                                                                                         \
-		static clss *CreateNew(const ::IR::IRUUID &uuid = ::IR::IRUUID().CreateNew())             \
-		{                                                                                         \
-			clss *result = new clss(uuid);                                                        \
-			IRObjectId objectId = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#spclss); \
-			if (objectId == 0)                                                                    \
-			{                                                                                     \
-				objectId = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss);          \
-			}                                                                                     \
-			result->fObjectType = objectId;                                                       \
-			return result;                                                                        \
+#define IR_OBJECT_SUB(clss, spclss)                                                             \
+	class clss : public spclss                                                                  \
+	{                                                                                           \
+	public:                                                                                     \
+		static IRObjectId get_object_type_id()                                                  \
+		{                                                                                       \
+			return ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss);                \
+		}                                                                                       \
+		static IRObjectId get_object_super_id()                                                 \
+		{                                                                                       \
+			return spclss::get_object_super_id();                                               \
+		}                                                                                       \
+		static clss *CreateNew(const ::IR::IRUUID &uuid = ::IR::IRUUID().CreateNew())           \
+		{                                                                                       \
+			clss *result = new clss(uuid);                                                      \
+			result->fObjectType = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss); \
+			result->fSuperType = spclss::get_object_super_id();                                 \
+			return result;                                                                      \
 		}
 
 #define IR_DEFINE_PROPERTY(name, type)                                              \
 private:                                                                            \
 	IR::InfinitRightValueProperty<type> f##name;                                    \
+                                                                                    \
 public:                                                                             \
 	const type &Get##name() const { return f##name.GetValue(); }                    \
 	IR::InfinitRightValueProperty<type> *Get##name##Property() { return &f##name; } \

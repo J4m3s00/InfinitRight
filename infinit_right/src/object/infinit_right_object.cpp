@@ -7,6 +7,7 @@ namespace IR {
 	{ 
 		InfinitRightObject* result = new InfinitRightObject(uuid); 
 		result->fObjectType = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName("InfinitRightObject"); 
+		result->fSuperType = result->fObjectType;
 		return result; 
 	}
 
