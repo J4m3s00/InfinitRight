@@ -1,12 +1,11 @@
 #pragma once
 
 #ifdef DS_WIN
-#pragma comment(lib, "rpcrt4.lib")  // UuidCreate - Minimum supported OS Win 2000
+#pragma comment(lib, "rpcrt4.lib") // UuidCreate - Minimum supported OS Win 2000
 #endif
 
 //------------------------------------------------------------------------------------------------------
 //DEFAULT INCLUDES
-
 
 #include <algorithm>
 #include <chrono>
@@ -26,7 +25,6 @@
 #include <atomic>
 #include <deque>
 
-
 //------------------------------------------------------------------------------------------------------
 //DEPENDENCIES INCLUDE
 
@@ -42,28 +40,27 @@
 //------------------------------------------------------------------------------------------------------
 //Typedefs
 
-namespace IR {
+namespace IR
+{
 	class IRUUID;
 	class InfinitRightObject;
 	class InfinitRightApp;
-}
+} // namespace IR
 
-typedef nlohmann::json	IRJson;
+typedef nlohmann::json IRJson;
 
-typedef int32_t			i32;
-typedef uint8_t			u8;
-typedef uint16_t		u16;
-typedef uint32_t		u32;
-typedef uint64_t		u64;
-typedef unsigned char	byte;
-typedef std::string		IRString;
-
+typedef int32_t i32;
+typedef uint8_t u8;
+typedef uint16_t u16;
+typedef uint32_t u32;
+typedef uint64_t u64;
+typedef unsigned char byte;
+typedef std::string IRString;
 
 ///////// OBJECT TYPES
-typedef std::map<IR::IRUUID, IR::InfinitRightObject*> TObjectMap;
-typedef std::vector<IR::InfinitRightObject*>		  TObjectList;
-typedef u32 			IRObjectId;
-
+typedef std::map<IR::IRUUID, IR::InfinitRightObject *> TObjectMap;
+typedef std::vector<IR::InfinitRightObject *> TObjectList;
+typedef u32 IRObjectId;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -73,67 +70,100 @@ using IRVector = std::vector<T>;
 template <typename T1, typename T2>
 using IRMap = std::map<T1, T2>;
 
-typedef std::function< IR::InfinitRightObject * (const IR::IRUUID& uuid) >	TObjectConstFn;
-typedef std::function< void (const IRJson& args) > TCallbackFn;
-
+typedef std::function<IR::InfinitRightObject *(const IR::IRUUID &uuid)> TObjectConstFn;
+typedef std::function<void(const IRJson &args)> TCallbackFn;
 
 /////////////////////////////////////////BRIDGING
 
 class IR_ModuleFunctionInfo
 {
 	friend class ::IR::InfinitRightApp;
+
 public:
-	const IRJson& input;
+	const IRJson &input;
+
 private:
 	IRJson fReturnValue;
+
 public:
-	IR_ModuleFunctionInfo(const IRJson& _input)
+	IR_ModuleFunctionInfo(const IRJson &_input)
 		: input(_input)
 	{
 		fReturnValue = IRJson::object();
 	}
 
-	void SetReturnValue(const IRJson& returnValue)
+	void SetReturnValue(const IRJson &returnValue)
 	{
 		fReturnValue = returnValue;
 	}
 };
 
-typedef std::function < void(IR_ModuleFunctionInfo & input)>	TBridgeFn;
+typedef std::function<void(IR_ModuleFunctionInfo &input)> TBridgeFn;
 
 //------------------------------------------------------------------------------------------------------
 //DEFINES
 #define IR_EXPORT void infinit_right_register_bridge_function()
 #define IR_REGISTER_METHOD(fn) ::IR::InfinitRightApp::gApp().RegisterBridgeFunction(#fn, fn)
-#define IR_REGISTER_OBJECT(objClss) ::IR::InfinitRightApp::gApp().RegisterObject(#objClss, objClss::CreateNew )
+#define IR_REGISTER_OBJECT(objClss) ::IR::InfinitRightApp::gApp().RegisterObject(#objClss, objClss::CreateNew)
 #define IR_GET_OBJECT_TPYE(objClss) ::IR
-#define IR_MODULE_FN(fn) void fn (IR_ModuleFunctionInfo& info)
+#define IR_MODULE_FN(fn) void fn(IR_ModuleFunctionInfo &info)
 
-#define IR_BEGIN_OBJECT(clss) class clss : public ::IR::InfinitRightObject {\
-public:\
-static clss* CreateNew(const ::IR::IRUUID& uuid = ::IR::IRUUID().CreateNew()) { clss* result = new clss(uuid); result->fObjectType = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss); return result; }
-#define  IR_END_OBJECT };
+#define IR_OBJECT_NEW(clss)                                                                                      \
+	class clss : public ::IR::InfinitRightObject                                                                 \
+	{                                                                                                            \
+	public:                                                                                                      \
+		static IRObjectId GetObjectId() { return ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss); } \
+		static clss *CreateNew(const ::IR::IRUUID &uuid = ::IR::IRUUID().CreateNew())                            \
+		{                                                                                                        \
+			clss *result = new clss(uuid);                                                                       \
+			result->fObjectType = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss);                  \
+			return result;                                                                                       \
+		}
 
-#define IR_BEGIN_OBJECT(clss, spclss) class clss : public spclss {\
-public:\
-static clss* CreateNew(const ::IR::IRUUID& uuid = ::IR::IRUUID().CreateNew()) { clss* result = new clss(uuid); IRObjectId objectId = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#spclss); if (objectId == 0) { objectId = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss); } result->fObjectType = objectId; return result; }
+#define IR_END_OBJECT \
+	};
 
+#define IR_OBJECT_SUB(clss, spclss)                                                               \
+	class clss : public spclss                                                                    \
+	{                                                                                             \
+	public:                                                                                       \
+		static IRObjectId GetObjectId()                                                           \
+		{                                                                                         \
+			IRObjectId objectId = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#spclss); \
+			if (objectId == 0)                                                                    \
+			{                                                                                     \
+				objectId = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss);          \
+			}                                                                                     \
+			return objectId;                                                                      \
+		}                                                                                         \
+		static clss *CreateNew(const ::IR::IRUUID &uuid = ::IR::IRUUID().CreateNew())             \
+		{                                                                                         \
+			clss *result = new clss(uuid);                                                        \
+			IRObjectId objectId = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#spclss); \
+			if (objectId == 0)                                                                    \
+			{                                                                                     \
+				objectId = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss);          \
+			}                                                                                     \
+			result->fObjectType = objectId;                                                       \
+			return result;                                                                        \
+		}
 
+#define IR_DEFINE_PROPERTY(name, type)                                              \
+private:                                                                            \
+	IR::InfinitRightValueProperty<type> f##name;                                    \
+public:                                                                             \
+	const type &Get##name() const { return f##name.GetValue(); }                    \
+	IR::InfinitRightValueProperty<type> *Get##name##Property() { return &f##name; } \
+	void Set##name(const type &value) { f##name.SetValue(value); }
 
-#define IR_DEFINE_PROPERTY(name, type) private:\
-IR::InfinitRightValueProperty<type> f##name;\
-public:\
-const type& Get##name() const { return f##name.GetValue(); }\
-IR::InfinitRightValueProperty<type>* Get##name##Property() { return &f##name; }\
-void Set##name(const type& value) { f##name.SetValue(value); }
-
-
-#define IR_DEFINE_OBJ_PROPERTY(name) private:\
-IR::InfinitRightObjectProperty f##name;\
-public:\
-IR::InfinitRightObject* Get##name() const { return f##name.GetValue(); }\
-IR::InfinitRightObjectProperty* Get##name##Property() { return &f##name; }\
-void Set##name(IR::InfinitRightObject* value) { f##name.SetValue(value); }
+#define IR_DEFINE_OBJ_PROPERTY(name)                                           \
+private:                                                                       \
+	IR::InfinitRightObjectProperty f##name;                                    \
+                                                                               \
+public:                                                                        \
+	IR::InfinitRightObject *Get##name() const { return f##name.GetValue(); }   \
+	IR::InfinitRightObjectProperty *Get##name##Property() { return &f##name; } \
+	void Set##name(IR::InfinitRightObject *value) { f##name.SetValue(value); }
 
 #define IR_INIT_PROPERTY(name) f##name(#name, this)
 #define IR_INIT_PROPERTY_A1(name, initValue) f##name(#name, this, initValue)
@@ -141,7 +171,6 @@ void Set##name(IR::InfinitRightObject* value) { f##name.SetValue(value); }
 #define IR_CHANGE_TYPE_Change "change"
 #define IR_CHANGE_TYPE_Create "create"
 #define IR_CHANGE_TYPE_Delete "delete"
-
 
 /*const type& get_##name() const { return f_##name.GetValue(); }\
 ::IR::InfinitRightValueProperty<type>* get_##name##_property() const { return &f_##name; }\
@@ -154,11 +183,9 @@ extern IR_EXPORT; //Function Header need to be somewhere. A implementation of th
 #include "infinit_right_logging.h"
 #include "infinit_right_uuid.h"
 
-
 #include "properties/_ir_properties_prefix.h"
 #include "object/_ir_object_prefix.h"
 #include "undo/_ir_undo_prefix.h"
 #include "drawing/_lr_drawing_prefix.h"
-
 
 #include "infinit_right_app.h"

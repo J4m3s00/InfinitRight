@@ -1,6 +1,6 @@
 #pragma once
 
-IR_BEGIN_OBJECT(TestObject)
+IR_OBJECT_NEW(TestObject)
 private:
 	TestObject(const IR::IRUUID& uuid)
 		: IR::InfinitRightObject(uuid),
@@ -11,3 +11,4 @@ private:
 
 	IR_DEFINE_PROPERTY(Number, i32);
 IR_END_OBJECT
+

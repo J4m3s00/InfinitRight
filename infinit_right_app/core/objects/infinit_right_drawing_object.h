@@ -1,6 +1,6 @@
 namespace IR {
 
-    IR_BEGIN_OBJECT(InfinitRightDrawingObject)
+    IR_OBJECT_NEW(InfinitRightDrawingObject)
         public:
         InfinitRightDrawingObject(const IRUUID& uuid = IRUUID().CreateNew());
         private:
