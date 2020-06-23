@@ -111,8 +111,12 @@ typedef std::function < void(IR_ModuleFunctionInfo & input)>	TBridgeFn;
 
 #define IR_BEGIN_OBJECT(clss) class clss : public ::IR::InfinitRightObject {\
 public:\
-static clss* CreateNew(const ::IR::IRUUID uuid = ::IR::IRUUID().CreateNew()) { clss* result = new clss(uuid); result->fObjectType = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss); return result; }
+static clss* CreateNew(const ::IR::IRUUID& uuid = ::IR::IRUUID().CreateNew()) { clss* result = new clss(uuid); result->fObjectType = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss); return result; }
 #define  IR_END_OBJECT };
+
+#define IR_BEGIN_OBJECT(clss, spclss) class clss : public spclss {\
+public:\
+static clss* CreateNew(const ::IR::IRUUID& uuid = ::IR::IRUUID().CreateNew()) { clss* result = new clss(uuid); IRObjectId objectId = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#spclss); if (objectId == 0) { objectId = ::IR::InfinitRightApp::gApp().GetObjectIdFromTypeName(#clss); } result->fObjectType = objectId; return result; }
 
 
 
